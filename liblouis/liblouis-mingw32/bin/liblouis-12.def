@@ -1,0 +1,94 @@
+EXPORTS
+    backTranslateWithTracing @1
+    charHash @2
+    closeLogFile @3
+    debugHook @4
+    extParseChars @5
+    extParseDots @6
+    findOpcodeName @7
+    findOpcodeNumber @8
+    getALine @9
+    getCharFromDots @10
+    getDotsForChar @11
+    getEmphClasses @12
+    getLastTableList @13
+    getTable @14
+    getTablePath @15
+    liblouis_allocMem @16
+    logMessage @17
+    logWidecharBuf @18
+    lou_backTranslate = lou_backTranslate@44 @19
+    lou_backTranslate@44 @20
+    lou_backTranslateString = lou_backTranslateString@32 @21
+    lou_backTranslateString@32 @22
+    lou_charSize = lou_charSize@0 @23
+    lou_charSize@0 @24
+    lou_charToDots = lou_charToDots@20 @25
+    lou_charToDots@20 @26
+    lou_checkTable = lou_checkTable@4 @27
+    lou_checkTable@4 @28
+    lou_compileString = lou_compileString@8 @29
+    lou_compileString@8 @30
+    lou_dotsToChar = lou_dotsToChar@20 @31
+    lou_dotsToChar@20 @32
+    lou_findTable = lou_findTable@4 @33
+    lou_findTable@4 @34
+    lou_free = lou_free@0 @35
+    lou_free@0 @36
+    lou_getDataPath = lou_getDataPath@0 @37
+    lou_getDataPath@0 @38
+    lou_getProgramPath = lou_getProgramPath@0 @39
+    lou_getProgramPath@0 @40
+    lou_getTable = lou_getTable@4 @41
+    lou_getTable@4 @42
+    lou_getTypeformForEmphClass = lou_getTypeformForEmphClass@8 @43
+    lou_getTypeformForEmphClass@8 @44
+    lou_hyphenate = lou_hyphenate@20 @45
+    lou_hyphenate@20 @46
+    lou_indexTables = lou_indexTables@4 @47
+    lou_indexTables@4 @48
+    lou_logEnd = lou_logEnd@0 @49
+    lou_logEnd@0 @50
+    lou_logFile = lou_logFile@4 @51
+    lou_logFile@4 @52
+    lou_logPrint @53
+    lou_readCharFromFile = lou_readCharFromFile@8 @54
+    lou_readCharFromFile@8 @55
+    lou_registerLogCallback = lou_registerLogCallback@4 @56
+    lou_registerLogCallback@4 @57
+    lou_registerTableResolver = lou_registerTableResolver@4 @58
+    lou_registerTableResolver@4 @59
+    lou_setDataPath = lou_setDataPath@4 @60
+    lou_setDataPath@4 @61
+    lou_setLogLevel = lou_setLogLevel@4 @62
+    lou_setLogLevel@4 @63
+    lou_translate = lou_translate@44 @64
+    lou_translate@44 @65
+    lou_translatePrehyphenated = lou_translatePrehyphenated@52 @66
+    lou_translatePrehyphenated@52 @67
+    lou_translateString = lou_translateString@32 @68
+    lou_translateString@32 @69
+    lou_version = lou_version@0 @70
+    lou_version@0 @71
+    other_backTranslate @72
+    other_charToDots @73
+    other_dotsToChar @74
+    other_translate @75
+    outOfMemory @76
+    pattern_check @77
+    pattern_check_hook @78
+    pattern_compile @79
+    pattern_output @80
+    pattern_print @81
+    pattern_reverse @82
+    resolveTable @83
+    rpl_malloc @84
+    rpl_realloc @85
+    showAttributes @86
+    showDots @87
+    showString @88
+    space @89 DATA
+    stringHash @90
+    strndup @91
+    translateWithTracing @92
+    translation_direction @93 DATA
