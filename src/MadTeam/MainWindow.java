@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -65,7 +66,11 @@ public class MainWindow extends javax.swing.JFrame {
         txtplaintext.setLineWrap(true);
         txtplaintext.setWrapStyleWord(true);
         frmMsg.setSize(320, 101);
-
+        
+        initDimensionsFolder();
+        loadDistancesBraille();
+        setDistancesBraille();
+        
         for (int i = 0; i < MAX_CHARS_PER_LINE * 6; i++) {
             fill += "0";
         }
@@ -78,8 +83,7 @@ public class MainWindow extends javax.swing.JFrame {
         } catch (Exception e) {
             System.out.println("Error en initMain: " + e);
         }
-        this.loadDistancesBraille();
-        this.setDistancesBraille();
+        
     }
 
     /**
@@ -128,6 +132,9 @@ public class MainWindow extends javax.swing.JFrame {
         txtsleep = new javax.swing.JTextField();
         btnCancelPrint = new javax.swing.JButton();
         btnTest = new javax.swing.JButton();
+        comboConfigFile = new javax.swing.JComboBox<>();
+        btnAddConfigFile = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
 
         lblMsg.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -258,6 +265,17 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
+        comboConfigFile.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        btnAddConfigFile.setText("+");
+        btnAddConfigFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddConfigFileActionPerformed(evt);
+            }
+        });
+
+        jLabel10.setText("Archivo de configuracion");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -279,47 +297,59 @@ public class MainWindow extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel3)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                                        .addComponent(jLabel3)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                        .addComponent(txtC, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                                        .addComponent(jLabel1)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addComponent(txtA, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                .addGap(24, 24, 24)
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                    .addComponent(jLabel2)
+                                                    .addComponent(jLabel4))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                    .addComponent(txtB, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(txtD, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGap(59, 59, 59))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                                .addComponent(jLabel10)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(jLabel5)
+                                                .addGap(27, 27, 27)
+                                                .addComponent(txtMaxChars, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(jLabel6)
+                                                .addGap(22, 22, 22)
+                                                .addComponent(txtMaxLines, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                                    .addComponent(jLabel7)
+                                                    .addGap(18, 18, 18)
+                                                    .addComponent(txtvelsheets, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(jLabel8)
+                                                        .addComponent(jLabel9))
+                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                        .addComponent(txtsleep, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
+                                                        .addComponent(txtvelcar))))))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(btnAddConfigFile)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(txtC, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel1)
+                                        .addComponent(comboConfigFile, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtA, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(24, 24, 24)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel4))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(txtB, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtD, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel5)
-                                        .addGap(27, 27, 27)
-                                        .addComponent(txtMaxChars, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel6)
-                                        .addGap(22, 22, 22)
-                                        .addComponent(txtMaxLines, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(btnApplyDistances)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                            .addComponent(jLabel7)
-                                            .addGap(18, 18, 18)
-                                            .addComponent(txtvelsheets, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(jLabel8)
-                                                .addComponent(jLabel9))
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                .addComponent(txtsleep, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
-                                                .addComponent(txtvelcar))))))
+                                        .addComponent(btnApplyDistances))))
                             .addComponent(lblDistancias))
-                        .addGap(0, 5, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -335,7 +365,7 @@ public class MainWindow extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblDistancias)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
@@ -363,11 +393,17 @@ public class MainWindow extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtsleep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel9))
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel10))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnApplyDistances))
-                    .addComponent(lblDots, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(17, 17, 17))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(comboConfigFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnApplyDistances)
+                            .addComponent(btnAddConfigFile))
+                        .addGap(18, 18, 18))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(lblDots, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(17, 17, 17))))
         );
 
         jTabbedPane1.addTab("Impresion", jPanel1);
@@ -376,7 +412,7 @@ public class MainWindow extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 454, Short.MAX_VALUE)
+            .addGap(0, 493, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -397,7 +433,7 @@ public class MainWindow extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnPrint)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -499,9 +535,40 @@ public class MainWindow extends javax.swing.JFrame {
         connectPrinter(true);
     }//GEN-LAST:event_btnPrintActionPerformed
 
+    private void btnTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTestActionPerformed
+
+        String text="";
+        for(int i=0;i< MAX_CHARS_PER_LINE;i++)
+        text=text+"y";
+        for(int i=1;i< MAX_LINES_PER_SHEET;i++)
+        text=text+"\np";
+        translate(text);
+        connectPrinter(true);
+    }//GEN-LAST:event_btnTestActionPerformed
+
+    private void btnCancelPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelPrintActionPerformed
+        btnCancelPrint.setEnabled(false);
+        btnPrint.setEnabled(true);
+        connection.stop();
+        setProgressValue(0);
+        //199 vs
+    }//GEN-LAST:event_btnCancelPrintActionPerformed
+
+    private void txtvelcarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtvelcarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtvelcarActionPerformed
+
+    private void btnApplyDistancesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyDistancesActionPerformed
+        checkDistances();
+    }//GEN-LAST:event_btnApplyDistancesActionPerformed
+
     private void btnConnectPrinterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConnectPrinterActionPerformed
         connectPrinter(false);
     }//GEN-LAST:event_btnConnectPrinterActionPerformed
+
+    private void btnAddConfigFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddConfigFileActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAddConfigFileActionPerformed
     public void connectPrinter(boolean print) {
         new Thread(new Runnable() {
             @Override
@@ -564,33 +631,6 @@ public class MainWindow extends javax.swing.JFrame {
         }
 
     }
-    private void btnApplyDistancesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyDistancesActionPerformed
-        checkDistances();
-    }//GEN-LAST:event_btnApplyDistancesActionPerformed
-
-    private void txtvelcarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtvelcarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtvelcarActionPerformed
-
-    private void btnCancelPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelPrintActionPerformed
-        btnCancelPrint.setEnabled(false);
-        btnPrint.setEnabled(true);
-        connection.stop();
-        setProgressValue(0);
-        //199 vs
-    }//GEN-LAST:event_btnCancelPrintActionPerformed
-
-    private void btnTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTestActionPerformed
-        
-        String text="";
-        for(int i=0;i< MAX_CHARS_PER_LINE;i++)
-            text=text+"y";
-        for(int i=1;i< MAX_LINES_PER_SHEET;i++)
-            text=text+"\np";
-        translate(text);
-        connectPrinter(true);
-    }//GEN-LAST:event_btnTestActionPerformed
-
     public void setProgressValue(int value) {
         jProgressBar1.setValue(value);
     }
@@ -622,8 +662,13 @@ public class MainWindow extends javax.swing.JFrame {
             }
         }
     }
-
-    public void setDistancesBraille() {
+    private void initDimensionsFolder(){
+        File folder= new File("dims");
+        if(!folder.exists()){
+            folder.mkdir();
+        }
+    }
+    private void setDistancesBraille() {
         txtA.setText(d_A + "");
         txtB.setText(d_B + "");
         txtC.setText(d_C + "");
@@ -635,7 +680,7 @@ public class MainWindow extends javax.swing.JFrame {
         txtsleep.setText(sleep_time + "");
     }
 
-    public void loadDistancesBraille() {
+    private void loadDistancesBraille() {
         try {
             FileReader inputFile = new FileReader("dist.lou");
             BufferedReader bufferReader = new BufferedReader(inputFile);
@@ -678,6 +723,7 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddConfigFile;
     private javax.swing.JButton btnApplyDistances;
     private javax.swing.JButton btnCancelPrint;
     private javax.swing.JButton btnConnectPrinter;
@@ -685,8 +731,10 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JButton btnOpenFile;
     private javax.swing.JButton btnPrint;
     private javax.swing.JButton btnTest;
+    private javax.swing.JComboBox<String> comboConfigFile;
     private javax.swing.JFrame frmMsg;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
