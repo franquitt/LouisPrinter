@@ -33,7 +33,7 @@ public final class ASCII {
     boolean negative;
 
     public ASCII() {
-        this(false);
+        this(true);
     }
 
     public ASCII(final boolean negative) {
@@ -78,17 +78,17 @@ public final class ASCII {
             //str = '.';
             str = ' ';
         } else if (g >= 180.0) {
-            str = '*';
+            str = ' ';
         } else if (g >= 160.0) {
-            str = ':';
+            str = ' ';
         } else if (g >= 130.0) {
-            str = 'o';
+            str = ' ';
         } else if (g >= 100.0) {
-            str = '&';
+            str = ' ';
         } else if (g >= 70.0) {
-            str = '8';
+            str = ' ';
         } else if (g >= 50.0) {
-            str = '#';
+            str = ' ';
         } else {
             str = '@';
         }
@@ -97,19 +97,24 @@ public final class ASCII {
     }
 
     public BufferedImage getResizedImage(BufferedImage originalImage) {
-        int IMG_WIDTH = 32 * 2;
-        int IMG_HEIGHT = 32 * 3;
-        if(originalImage.getWidth()>originalImage.getHeight()){
-           /* IMG_WIDTH = 32 * 3;
-            IMG_HEIGHT = 32 * 2;
-            //TODO rotar la imagen
-            */
+        int LIMIT_IMG_WIDTH = 80;
+        int LIMIT_IMG_HEIGHT = 120;
+        int img_width = originalImage.getWidth();
+        int img_height = originalImage.getHeight();
+        if(img_width>LIMIT_IMG_WIDTH){
+           //Resize img size proportionally to fix the max width
+           
+           int propor = (LIMIT_IMG_WIDTH*100)/img_width;
+           img_width=LIMIT_IMG_WIDTH;
+           img_height=img_height*propor;
+           if(img_height>LIMIT_IMG_HEIGHT)
+               img_height=LIMIT_IMG_HEIGHT;
         }
         
         int type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
-        BufferedImage resizedImage = new BufferedImage(IMG_WIDTH, IMG_HEIGHT, type);
+        BufferedImage resizedImage = new BufferedImage(img_width, img_height, type);
         Graphics2D g = resizedImage.createGraphics();
-        g.drawImage(originalImage, 0, 0, IMG_WIDTH, IMG_HEIGHT, null);
+        g.drawImage(originalImage, 0, 0, img_width, img_height, null);
         g.dispose();
         g.setComposite(AlphaComposite.Src);
         g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
@@ -154,7 +159,8 @@ public final class ASCII {
     }
 
     public static void main(String[] args) {
-        
+        int IMG_WIDTH = 150;
+        int IMG_HEIGHT = 150;
 
         SwingUtilities.invokeLater(new Runnable() {
             @Override
@@ -169,7 +175,7 @@ public final class ASCII {
                             throw new IllegalArgumentException(f + " is not a valid image.");
                         }
                         final String ascii = new ASCII().convert(image);
-                        final JTextArea textArea = new JTextArea(ascii, image.getHeight(), image.getWidth());
+                        final JTextArea textArea = new JTextArea(ascii, IMG_HEIGHT, IMG_WIDTH);
                         textArea.setFont(new Font("Monospaced", Font.BOLD, 5));
                         textArea.setEditable(false);
                         final JDialog dialog = new JOptionPane(new JScrollPane(textArea), JOptionPane.PLAIN_MESSAGE).createDialog(ASCII.class.getName());
