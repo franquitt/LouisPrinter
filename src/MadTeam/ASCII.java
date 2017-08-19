@@ -31,14 +31,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 public final class ASCII {
 
     boolean negative;
-
-    public ASCII() {
-        this(true);
+    int IMG_HEIGHT=0, IMG_WIDTH=0;
+    public ASCII(boolean negative, int IMG_HEIGHT, int IMG_WIDTH) {
+        this.negative=negative;
+        this.IMG_HEIGHT=IMG_HEIGHT;
+        this.IMG_WIDTH=IMG_WIDTH;
     }
 
-    public ASCII(final boolean negative) {
-        this.negative = negative;
-    }
 
     public String convert(BufferedImage image) {
         image = getResizedImage(image);
@@ -174,7 +173,7 @@ public final class ASCII {
                         if (image == null) {
                             throw new IllegalArgumentException(f + " is not a valid image.");
                         }
-                        final String ascii = new ASCII().convert(image);
+                        final String ascii = new ASCII(false, IMG_HEIGHT, IMG_WIDTH).convert(image);
                         final JTextArea textArea = new JTextArea(ascii, IMG_HEIGHT, IMG_WIDTH);
                         textArea.setFont(new Font("Monospaced", Font.BOLD, 5));
                         textArea.setEditable(false);

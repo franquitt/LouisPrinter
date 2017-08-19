@@ -15,9 +15,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import org.apache.pdfbox.cos.COSDocument;
 import org.apache.pdfbox.io.RandomAccessFile;
 import org.apache.pdfbox.pdfparser.PDFParser;
@@ -49,6 +53,7 @@ public class MainWindow extends javax.swing.JFrame {
     private MadConnection connection;
     private String fill = "";
     public int d_A = 25, d_B = 35, d_C = 25, d_D = 50, vel_sheet = 60, vel_car = 90, sleep_time = 100;
+    private File imgFile;
 
     public MainWindow() {
         initComponents();
@@ -136,6 +141,17 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
+        btnopenImg = new javax.swing.JButton();
+        lblImgName = new javax.swing.JLabel();
+        checkImgNeg = new javax.swing.JCheckBox();
+        btnImgPreview = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+        jSeparator1 = new javax.swing.JSeparator();
+        jLabel14 = new javax.swing.JLabel();
 
         lblMsg.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblMsg.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -407,15 +423,84 @@ public class MainWindow extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Impresion", jPanel1);
 
+        btnopenImg.setText("Abrir Imagen");
+        btnopenImg.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnopenImgActionPerformed(evt);
+            }
+        });
+
+        checkImgNeg.setText("Negativo");
+
+        btnImgPreview.setText("Visualizar");
+        btnImgPreview.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImgPreviewActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setText("Config de la Hoja");
+
+        jLabel9.setText("Ancho");
+
+        jLabel13.setText("Largo");
+
+        jLabel14.setText("Config Conversion");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 566, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(btnopenImg)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblImgName))
+                            .addComponent(btnImgPreview)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jLabel9)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jTextField1))
+                                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel13)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(checkImgNeg)
+                            .addComponent(jLabel14))
+                        .addContainerGap(379, Short.MAX_VALUE))
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 268, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnopenImg)
+                    .addComponent(lblImgName))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel14)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(checkImgNeg)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 88, Short.MAX_VALUE)
+                .addComponent(btnImgPreview)
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Imagen", jPanel2);
@@ -584,6 +669,51 @@ public class MainWindow extends javax.swing.JFrame {
     private void comboConfigFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboConfigFileActionPerformed
         loadDistancesBraille();
     }//GEN-LAST:event_comboConfigFileActionPerformed
+
+    private void btnopenImgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnopenImgActionPerformed
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileFilter(new FileNameExtensionFilter("Images", "jpg", "gif", "png"));
+        while (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+            try {
+                imgFile = fileChooser.getSelectedFile();
+                final BufferedImage image = ImageIO.read(imgFile);
+                if (image == null) {
+                    throw new IllegalArgumentException(imgFile + " is not a valid image.");
+                } else {
+                    lblImgName.setText(imgFile.getName());
+                    break;
+                }
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_btnopenImgActionPerformed
+
+    private void btnImgPreviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImgPreviewActionPerformed
+        if (imgFile != null) {
+            try {
+                final BufferedImage image = ImageIO.read(imgFile);
+                if (image == null) {
+                    throw new IllegalArgumentException(imgFile + " is not a valid image.");
+                }
+                int ancho=0;
+                int largo=0;
+                try{
+                    ancho=
+                }
+                final String ascii = new ASCII().convert(image);
+                final JTextArea textArea = new JTextArea(ascii, 250, 480);
+                textArea.setFont(new Font("Monospaced", Font.BOLD, 5));
+                textArea.setEditable(false);
+                final JDialog dialog = new JOptionPane(new JScrollPane(textArea), JOptionPane.PLAIN_MESSAGE).createDialog(ASCII.class.getName());
+                dialog.setResizable(true);
+                dialog.setVisible(true);
+            } catch (IOException ex) {
+                Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_btnImgPreviewActionPerformed
     public void connectPrinter(boolean print) {
         new Thread(new Runnable() {
             @Override
@@ -615,12 +745,13 @@ public class MainWindow extends javax.swing.JFrame {
     public void checkDistances() {
 
         if (checkValue(txtA) && checkValue(txtB) && checkValue(txtC) && checkValue(txtD) && checkValue(txtMaxChars) && checkValue(txtMaxLines) && checkValue(txtvelcar) && checkValue(txtvelsheets) && checkValue(txtsleep)) {
-                try {
-                     Object selectedFile = comboConfigFile.getSelectedItem();
-                if(selectedFile==null)
+            try {
+                Object selectedFile = comboConfigFile.getSelectedItem();
+                if (selectedFile == null) {
                     return;
-                System.out.println("dims/"+(String)selectedFile+".lou");
-                PrintWriter out = new PrintWriter("dims/"+(String)selectedFile+".lou");
+                }
+                System.out.println("dims/" + (String) selectedFile + ".lou");
+                PrintWriter out = new PrintWriter("dims/" + (String) selectedFile + ".lou");
                 out.println(txtA.getText());
                 out.println(txtB.getText());
                 out.println(txtC.getText());
@@ -687,7 +818,7 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void createConfigFile(String name) {
         try {
-            PrintWriter writer = new PrintWriter("dims/"+name+".lou", "UTF-8");
+            PrintWriter writer = new PrintWriter("dims/" + name + ".lou", "UTF-8");
             writer.println("25");
             writer.println("35");
             writer.println("25");
@@ -738,10 +869,11 @@ public class MainWindow extends javax.swing.JFrame {
     private void loadDistancesBraille() {
         try {
             Object selectedFile = comboConfigFile.getSelectedItem();
-            if(selectedFile==null)
+            if (selectedFile == null) {
                 return;
-            System.out.println("dims/"+(String)selectedFile+".lou");
-            FileReader inputFile = new FileReader("dims/"+(String)selectedFile+".lou");
+            }
+            System.out.println("dims/" + (String) selectedFile + ".lou");
+            FileReader inputFile = new FileReader("dims/" + (String) selectedFile + ".lou");
             BufferedReader bufferReader = new BufferedReader(inputFile);
             int[] lines = new int[9];
             String line;
@@ -789,29 +921,40 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JButton btnCancelPrint;
     private javax.swing.JButton btnConnectPrinter;
     private javax.swing.JButton btnConvertir;
+    private javax.swing.JButton btnImgPreview;
     private javax.swing.JButton btnOpenFile;
     private javax.swing.JButton btnPrint;
     private javax.swing.JButton btnTest;
+    private javax.swing.JButton btnopenImg;
+    private javax.swing.JCheckBox checkImgNeg;
     private javax.swing.JComboBox<String> comboConfigFile;
     private javax.swing.JFrame frmMsg;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel lblDistancias;
     private javax.swing.JLabel lblDots;
+    private javax.swing.JLabel lblImgName;
     private javax.swing.JLabel lblMsg;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JTextField txtA;
