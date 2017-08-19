@@ -699,10 +699,12 @@ public class MainWindow extends javax.swing.JFrame {
                 }
                 int ancho=0;
                 int largo=0;
-                try{
+                boolean negative=checkImgNeg.isSelected();
+                        
+               /* try{
                     ancho=
-                }
-                final String ascii = new ASCII().convert(image);
+                }*/
+                final String ascii = new ASCII(negative, 250, 480).convert(image);
                 final JTextArea textArea = new JTextArea(ascii, 250, 480);
                 textArea.setFont(new Font("Monospaced", Font.BOLD, 5));
                 textArea.setEditable(false);
