@@ -31,11 +31,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 public final class ASCII {
 
     boolean negative;
-    int IMG_HEIGHT=0, IMG_WIDTH=0;
+    int IMG_MAX_HEIGHT=0, IMG_MAX_WIDTH=0;
     public ASCII(boolean negative, int IMG_HEIGHT, int IMG_WIDTH) {
         this.negative=negative;
-        this.IMG_HEIGHT=IMG_HEIGHT;
-        this.IMG_WIDTH=IMG_WIDTH;
+        this.IMG_MAX_HEIGHT=IMG_HEIGHT;
+        this.IMG_MAX_WIDTH=IMG_WIDTH;
     }
 
 
@@ -96,8 +96,8 @@ public final class ASCII {
     }
 
     public BufferedImage getResizedImage(BufferedImage originalImage) {
-        int LIMIT_IMG_WIDTH = 80;
-        int LIMIT_IMG_HEIGHT = 120;
+        int LIMIT_IMG_WIDTH = IMG_MAX_WIDTH;
+        int LIMIT_IMG_HEIGHT = IMG_MAX_HEIGHT;
         int img_width = originalImage.getWidth();
         int img_height = originalImage.getHeight();
         if(img_width>LIMIT_IMG_WIDTH){
@@ -156,7 +156,7 @@ public final class ASCII {
         return str;
 
     }
-
+/*
     public static void main(String[] args) {
         int IMG_WIDTH = 150;
         int IMG_HEIGHT = 150;
@@ -187,6 +187,6 @@ public final class ASCII {
                 System.exit(0);
             }
         });
-    }
+    }*/
 
 }

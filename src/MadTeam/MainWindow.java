@@ -1,5 +1,6 @@
 package MadTeam;
 
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
@@ -17,7 +18,9 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -54,6 +57,8 @@ public class MainWindow extends javax.swing.JFrame {
     private String fill = "";
     public int d_A = 25, d_B = 35, d_C = 25, d_D = 50, vel_sheet = 60, vel_car = 90, sleep_time = 100;
     private File imgFile;
+    private JFrame frmImgPrev;
+    private JTextArea txtImgPrev;
 
     public MainWindow() {
         initComponents();
@@ -147,9 +152,9 @@ public class MainWindow extends javax.swing.JFrame {
         btnImgPreview = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtImgWidth = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        txtImgHeight = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel14 = new javax.swing.JLabel();
 
@@ -466,12 +471,12 @@ public class MainWindow extends javax.swing.JFrame {
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                                         .addComponent(jLabel9)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField1))
+                                        .addComponent(txtImgWidth))
                                     .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel13)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtImgHeight, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(checkImgNeg)
                             .addComponent(jLabel14))
                         .addContainerGap(379, Short.MAX_VALUE))
@@ -489,9 +494,9 @@ public class MainWindow extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtImgWidth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel13)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtImgHeight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -697,20 +702,76 @@ public class MainWindow extends javax.swing.JFrame {
                 if (image == null) {
                     throw new IllegalArgumentException(imgFile + " is not a valid image.");
                 }
-                int ancho=0;
-                int largo=0;
-                boolean negative=checkImgNeg.isSelected();
-                        
-               /* try{
-                    ancho=
-                }*/
-                final String ascii = new ASCII(negative, 250, 480).convert(image);
-                final JTextArea textArea = new JTextArea(ascii, 250, 480);
-                textArea.setFont(new Font("Monospaced", Font.BOLD, 5));
-                textArea.setEditable(false);
-                final JDialog dialog = new JOptionPane(new JScrollPane(textArea), JOptionPane.PLAIN_MESSAGE).createDialog(ASCII.class.getName());
-                dialog.setResizable(true);
-                dialog.setVisible(true);
+                int ancho = 0;
+                int largo = 0;
+                boolean negative = checkImgNeg.isSelected();
+                try {
+                    ancho = Integer.parseInt(txtImgWidth.getText());
+                    largo = Integer.parseInt(txtImgHeight.getText());
+                } catch (Exception e) {
+                }
+                if (ancho > 0 && largo > 0) {
+                    final String asciiText = new ASCII(negative, largo, ancho).convert(image);
+                    if (frmImgPrev == null) {
+                        txtImgPrev = new JTextArea(asciiText, largo, ancho);
+                        txtImgPrev.setFont(new Font("Monospaced", Font.BOLD, 5));
+                        txtImgPrev.setEditable(false);
+                        frmImgPrev = new JFrame("Previsualizacion de la imagen");
+                        frmImgPrev.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                        Dimension d = new Dimension(ancho, largo);
+                        //dialog.setPreferredSize(d);
+                        JPanel container = new JPanel();
+                        container.add(txtImgPrev);
+                        JScrollPane scrPane = new JScrollPane(container);
+                        frmImgPrev.add(scrPane);
+                    } else {
+                        txtImgPrev.setColumns(ancho);
+                        txtImgPrev.setRows(largo);
+                        txtImgPrev.setText(asciiText);
+                    }
+                    frmImgPrev.setResizable(true);
+                    frmImgPrev.setVisible(true);
+                    frmImgPrev.pack();
+                    /*
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            int ancho = 10;
+                            int largo = 10;
+                            while (ancho < 170) {
+                                try {
+                                    ancho += 1;
+                                    largo += 1;
+                                    System.out.println(ancho + " " + largo);
+                                    final String asciiText = new ASCII(negative, largo, ancho).convert(image);
+                                    if (frmImgPrev == null) {
+                                        txtImgPrev = new JTextArea(asciiText, largo, ancho);
+                                        txtImgPrev.setFont(new Font("Monospaced", Font.BOLD, 5));
+                                        txtImgPrev.setEditable(false);
+                                        frmImgPrev = new JFrame("Previsualizacion de la imagen");
+                                        frmImgPrev.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                                        Dimension d = new Dimension(ancho, largo);
+                                        //dialog.setPreferredSize(d);
+                                        JPanel container = new JPanel();
+                                        container.add(txtImgPrev);
+                                        JScrollPane scrPane = new JScrollPane(container);
+                                        frmImgPrev.add(scrPane);
+                                    } else {
+                                        txtImgPrev.setColumns(ancho);
+                                        txtImgPrev.setRows(largo);
+                                        txtImgPrev.setText(asciiText);
+                                    }
+                                    frmImgPrev.setResizable(true);
+                                    frmImgPrev.setVisible(true);
+                                    frmImgPrev.pack();
+                                    Thread.sleep(550);
+                                } catch (InterruptedException ex) {
+                                    Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            }
+                        }
+                    }).start();*/
+                }
             } catch (IOException ex) {
                 Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -952,8 +1013,6 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel lblDistancias;
     private javax.swing.JLabel lblDots;
     private javax.swing.JLabel lblImgName;
@@ -964,6 +1023,8 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JTextArea txtBrailleText;
     private javax.swing.JTextField txtC;
     private javax.swing.JTextField txtD;
+    private javax.swing.JTextField txtImgHeight;
+    private javax.swing.JTextField txtImgWidth;
     private javax.swing.JTextField txtMaxChars;
     private javax.swing.JTextField txtMaxLines;
     private javax.swing.JTextArea txtplaintext;
