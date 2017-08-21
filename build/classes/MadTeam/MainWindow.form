@@ -106,7 +106,7 @@
                       <Component id="btnPrint" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Component id="jTabbedPane1" max="32767" attributes="0"/>
+                  <Component id="jTabbedPane1" pref="306" max="32767" attributes="0"/>
                   <EmptySpace min="-2" pref="0" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -286,7 +286,7 @@
                                       </Group>
                                       <Component id="lblDistancias" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace min="0" pref="71" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="89" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -526,9 +526,10 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jSeparator1" alignment="1" max="32767" attributes="0"/>
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" alignment="0" attributes="0">
@@ -538,11 +539,11 @@
                                       </Group>
                                       <Component id="btnImgPreview" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Group type="102" alignment="0" attributes="0">
-                                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                          <Group type="103" groupAlignment="1" attributes="0">
                                               <Group type="102" alignment="0" attributes="0">
                                                   <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="txtImgWidth" max="32767" attributes="0"/>
+                                                  <Component id="txtImgWidth" min="-2" pref="38" max="-2" attributes="0"/>
                                               </Group>
                                               <Component id="jLabel8" alignment="0" min="-2" max="-2" attributes="0"/>
                                           </Group>
@@ -551,12 +552,27 @@
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                           <Component id="txtImgHeight" min="-2" pref="48" max="-2" attributes="0"/>
                                       </Group>
-                                      <Component id="checkImgNeg" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel14" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="checkUmbral200" min="-2" max="-2" attributes="0"/>
+                                              <Component id="checkUmbral230" min="-2" pref="110" max="-2" attributes="0"/>
+                                              <Component id="checkUmbral180" min="-2" max="-2" attributes="0"/>
+                                              <Component id="checkUmbral160" min="-2" max="-2" attributes="0"/>
+                                              <Component id="checkUmbral130" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="checkUmbral100" min="-2" max="-2" attributes="0"/>
+                                              <Component id="checkUmbralBase" min="-2" max="-2" attributes="0"/>
+                                              <Component id="checkUmbral70" min="-2" max="-2" attributes="0"/>
+                                              <Component id="checkUmbral50" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
                                   </Group>
-                                  <EmptySpace pref="379" max="32767" attributes="0"/>
+                                  <EmptySpace pref="367" max="32767" attributes="0"/>
                               </Group>
-                              <Component id="jSeparator1" alignment="1" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -583,8 +599,28 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jLabel14" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="checkImgNeg" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="88" max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="checkUmbral100" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="checkUmbral230" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="checkUmbral70" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="checkUmbral200" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="checkUmbral50" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="checkUmbral180" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="checkUmbralBase" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="checkUmbral160" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="checkUmbral130" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                           <Component id="btnImgPreview" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -602,11 +638,6 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="lblImgName">
                 </Component>
-                <Component class="javax.swing.JCheckBox" name="checkImgNeg">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Negativo"/>
-                  </Properties>
-                </Component>
                 <Component class="javax.swing.JButton" name="btnImgPreview">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Visualizar"/>
@@ -617,7 +648,7 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel8">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Config de la Hoja"/>
+                    <Property name="text" type="java.lang.String" value="Config Hoja"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel9">
@@ -639,6 +670,60 @@
                 <Component class="javax.swing.JLabel" name="jLabel14">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Config Conversion"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JCheckBox" name="checkUmbral230">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Umbral 230"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="checkUmbral230ActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JCheckBox" name="checkUmbral200">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Umbral 200"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="checkUmbral200ActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JCheckBox" name="checkUmbral180">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Umbral 180"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JCheckBox" name="checkUmbral70">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Umbral 70"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="checkUmbral70ActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JCheckBox" name="checkUmbral160">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Umbral 160"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JCheckBox" name="checkUmbral130">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Umbral 130"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JCheckBox" name="checkUmbral100">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Umbral 100"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JCheckBox" name="checkUmbral50">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Umbral 50"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JCheckBox" name="checkUmbralBase">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Umbral base"/>
                   </Properties>
                 </Component>
               </SubComponents>

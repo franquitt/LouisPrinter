@@ -30,12 +30,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  */
 public final class ASCII {
 
-    boolean negative;
     int IMG_MAX_HEIGHT=0, IMG_MAX_WIDTH=0;
-    public ASCII(boolean negative, int IMG_HEIGHT, int IMG_WIDTH) {
-        this.negative=negative;
+    boolean[] config;
+    public ASCII(int IMG_HEIGHT, int IMG_WIDTH, boolean[] config) {
         this.IMG_MAX_HEIGHT=IMG_HEIGHT;
         this.IMG_MAX_WIDTH=IMG_WIDTH;
+        this.config=config;
     }
 
 
@@ -50,7 +50,7 @@ public final class ASCII {
                 Color pixelColor = new Color(image.getRGB(x, y));
                 //double gValue = (double) pixelColor.getRed() * 0.2989 + (double) pixelColor.getBlue() * 0.5870 + (double) pixelColor.getGreen() * 0.1140;
                 double gValue = (double) pixelColor.getRed() * 0.2989 + (double) pixelColor.getBlue() * 0.5870 + (double) pixelColor.getGreen() * 0.1140;
-                final char s = negative ? returnStrNeg(gValue) : returnStrPos(gValue);
+                final char s = returnStrPos(gValue);
                 sb.append(s);
             }
         }
@@ -72,24 +72,24 @@ public final class ASCII {
         final char str;
 
         if (g >= 230.0) {
-            str = ' ';
+            str = config[0] ? '*' : ' ';
         } else if (g >= 200.0) {
             //str = '.';
-            str = ' ';
+            str = config[1] ? '*' : ' ';
         } else if (g >= 180.0) {
-            str = ' ';
+            str = config[2] ? '*' : ' ';
         } else if (g >= 160.0) {
-            str = ' ';
+            str = config[3] ? '*' : ' ';
         } else if (g >= 130.0) {
-            str = ' ';
+            str = config[4] ? '*' : ' ';
         } else if (g >= 100.0) {
-            str = ' ';
+            str = config[5] ? '*' : ' ';
         } else if (g >= 70.0) {
-            str = ' ';
+            str = config[6] ? '*' : ' ';
         } else if (g >= 50.0) {
-            str = ' ';
+            str = config[7] ? '*' : ' ';
         } else {
-            str = '@';
+            str = config[8] ? '*' : ' ';
         }
         return str; // return the character
 
@@ -130,32 +130,7 @@ public final class ASCII {
      * @param g grayscale
      * @return char
      */
-    private char returnStrNeg(double g) {
-        final char str;
-
-        if (g >= 230.0) {
-            str = '@';
-        } else if (g >= 200.0) {
-            str = '#';
-        } else if (g >= 180.0) {
-            str = '8';
-        } else if (g >= 160.0) {
-            str = '&';
-        } else if (g >= 130.0) {
-            str = 'o';
-        } else if (g >= 100.0) {
-            str = ':';
-        } else if (g >= 70.0) {
-            str = '*';
-        } else if (g >= 50.0) {
-            //str = '.';
-            str = ' ';
-        } else {
-            str = ' ';
-        }
-        return str;
-
-    }
+   
 /*
     public static void main(String[] args) {
         int IMG_WIDTH = 150;

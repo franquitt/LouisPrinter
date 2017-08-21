@@ -52,14 +52,13 @@ public class MainWindow extends javax.swing.JFrame {
 
     public int MAX_CHARS_PER_LINE = 32;
     public int MAX_LINES_PER_SHEET = 32;
-    private String bin = "";
     private MadConnection connection;
-    private String fill = "";
     public int d_A = 25, d_B = 35, d_C = 25, d_D = 50, vel_sheet = 60, vel_car = 90, sleep_time = 100;
     private File imgFile;
     private JFrame frmImgPrev;
     private JTextArea txtImgPrev;
-
+    public final int MODE_TEXT=0, MODE_IMG=0;
+    public int MODE=MODE_TEXT;
     public MainWindow() {
         initComponents();
         try {
@@ -81,9 +80,7 @@ public class MainWindow extends javax.swing.JFrame {
         loadComboConfig();
         loadDistancesBraille();
 
-        for (int i = 0; i < MAX_CHARS_PER_LINE * 6; i++) {
-            fill += "0";
-        }
+
         KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
         manager.addKeyEventDispatcher(new DispatcherListener(this));
         try {
@@ -148,7 +145,6 @@ public class MainWindow extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         btnopenImg = new javax.swing.JButton();
         lblImgName = new javax.swing.JLabel();
-        checkImgNeg = new javax.swing.JCheckBox();
         btnImgPreview = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -157,6 +153,15 @@ public class MainWindow extends javax.swing.JFrame {
         txtImgHeight = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel14 = new javax.swing.JLabel();
+        checkUmbral230 = new javax.swing.JCheckBox();
+        checkUmbral200 = new javax.swing.JCheckBox();
+        checkUmbral180 = new javax.swing.JCheckBox();
+        checkUmbral70 = new javax.swing.JCheckBox();
+        checkUmbral160 = new javax.swing.JCheckBox();
+        checkUmbral130 = new javax.swing.JCheckBox();
+        checkUmbral100 = new javax.swing.JCheckBox();
+        checkUmbral50 = new javax.swing.JCheckBox();
+        checkUmbralBase = new javax.swing.JCheckBox();
 
         lblMsg.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblMsg.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -371,7 +376,7 @@ public class MainWindow extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(comboConfigFile, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addComponent(lblDistancias))
-                        .addGap(0, 71, Short.MAX_VALUE)))
+                        .addGap(0, 89, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -435,8 +440,6 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
-        checkImgNeg.setText("Negativo");
-
         btnImgPreview.setText("Visualizar");
         btnImgPreview.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -444,13 +447,46 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
-        jLabel8.setText("Config de la Hoja");
+        jLabel8.setText("Config Hoja");
 
         jLabel9.setText("Ancho");
 
         jLabel13.setText("Largo");
 
         jLabel14.setText("Config Conversion");
+
+        checkUmbral230.setText("Umbral 230");
+        checkUmbral230.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkUmbral230ActionPerformed(evt);
+            }
+        });
+
+        checkUmbral200.setText("Umbral 200");
+        checkUmbral200.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkUmbral200ActionPerformed(evt);
+            }
+        });
+
+        checkUmbral180.setText("Umbral 180");
+
+        checkUmbral70.setText("Umbral 70");
+        checkUmbral70.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkUmbral70ActionPerformed(evt);
+            }
+        });
+
+        checkUmbral160.setText("Umbral 160");
+
+        checkUmbral130.setText("Umbral 130");
+
+        checkUmbral100.setText("Umbral 100");
+
+        checkUmbral50.setText("Umbral 50");
+
+        checkUmbralBase.setText("Umbral base");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -459,6 +495,7 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -467,20 +504,32 @@ public class MainWindow extends javax.swing.JFrame {
                                 .addComponent(lblImgName))
                             .addComponent(btnImgPreview)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                                         .addComponent(jLabel9)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtImgWidth))
+                                        .addComponent(txtImgWidth, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel13)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(txtImgHeight, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(checkImgNeg)
-                            .addComponent(jLabel14))
-                        .addContainerGap(379, Short.MAX_VALUE))
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)))
+                            .addComponent(jLabel14)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(2, 2, 2)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(checkUmbral200)
+                                    .addComponent(checkUmbral230, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(checkUmbral180)
+                                    .addComponent(checkUmbral160)
+                                    .addComponent(checkUmbral130))
+                                .addGap(10, 10, 10)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(checkUmbral100)
+                                    .addComponent(checkUmbralBase)
+                                    .addComponent(checkUmbral70)
+                                    .addComponent(checkUmbral50))))
+                        .addContainerGap(367, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -502,8 +551,24 @@ public class MainWindow extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel14)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(checkImgNeg)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 88, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(checkUmbral100)
+                    .addComponent(checkUmbral230))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(checkUmbral70)
+                    .addComponent(checkUmbral200, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(checkUmbral50)
+                    .addComponent(checkUmbral180))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(checkUmbralBase)
+                    .addComponent(checkUmbral160))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(checkUmbral130)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnImgPreview)
                 .addContainerGap())
         );
@@ -536,7 +601,7 @@ public class MainWindow extends javax.swing.JFrame {
                     .addComponent(btnConvertir)
                     .addComponent(btnPrint))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
                 .addGap(0, 0, 0))
         );
 
@@ -704,14 +769,16 @@ public class MainWindow extends javax.swing.JFrame {
                 }
                 int ancho = 0;
                 int largo = 0;
-                boolean negative = checkImgNeg.isSelected();
+                
                 try {
                     ancho = Integer.parseInt(txtImgWidth.getText());
                     largo = Integer.parseInt(txtImgHeight.getText());
                 } catch (Exception e) {
                 }
+                boolean[] config = {checkUmbral230.isSelected(), checkUmbral200.isSelected(), checkUmbral180.isSelected(), checkUmbral160.isSelected(), checkUmbral130.isSelected(), checkUmbral100.isSelected(), checkUmbral70.isSelected(), checkUmbral50.isSelected(), checkUmbralBase.isSelected()};
                 if (ancho > 0 && largo > 0) {
-                    final String asciiText = new ASCII(negative, largo, ancho).convert(image);
+                    MODE=MODE_IMG;
+                    final String asciiText = new ASCII(largo, ancho, config).convert(image);
                     if (frmImgPrev == null) {
                         txtImgPrev = new JTextArea(asciiText, largo, ancho);
                         txtImgPrev.setFont(new Font("Monospaced", Font.BOLD, 5));
@@ -777,6 +844,18 @@ public class MainWindow extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnImgPreviewActionPerformed
+
+    private void checkUmbral200ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkUmbral200ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_checkUmbral200ActionPerformed
+
+    private void checkUmbral230ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkUmbral230ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_checkUmbral230ActionPerformed
+
+    private void checkUmbral70ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkUmbral70ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_checkUmbral70ActionPerformed
     public void connectPrinter(boolean print) {
         new Thread(new Runnable() {
             @Override
@@ -854,6 +933,7 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     public void translate(String base) {
+        MODE = MODE_TEXT;
         txtBrailleText.setText("");
         txtBrailleText.setFont(myFont);
 
@@ -872,8 +952,14 @@ public class MainWindow extends javax.swing.JFrame {
                 btnCancelPrint.setEnabled(true);
                 btnPrint.setEnabled(false);
                 setProgressValue(0);
-                String braille = txtBrailleText.getText().replace("\t", "    ");
-                String mad = Braille.getMadText(braille, this);
+                String mad="";
+                if(MODE==MODE_TEXT){
+                    String brailleText = txtBrailleText.getText().replace("\t", "    ");
+                    mad = Braille.getMadText(brailleText, this);
+                }else if(MODE==MODE_IMG){
+                    //TODO convertir imagen a madtext
+                }
+                
                 connection.print(this, mad);
             }
         }
@@ -989,7 +1075,15 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JButton btnPrint;
     private javax.swing.JButton btnTest;
     private javax.swing.JButton btnopenImg;
-    private javax.swing.JCheckBox checkImgNeg;
+    private javax.swing.JCheckBox checkUmbral100;
+    private javax.swing.JCheckBox checkUmbral130;
+    private javax.swing.JCheckBox checkUmbral160;
+    private javax.swing.JCheckBox checkUmbral180;
+    private javax.swing.JCheckBox checkUmbral200;
+    private javax.swing.JCheckBox checkUmbral230;
+    private javax.swing.JCheckBox checkUmbral50;
+    private javax.swing.JCheckBox checkUmbral70;
+    private javax.swing.JCheckBox checkUmbralBase;
     private javax.swing.JComboBox<String> comboConfigFile;
     private javax.swing.JFrame frmMsg;
     private javax.swing.JLabel jLabel1;
