@@ -16,7 +16,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -24,7 +23,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import org.apache.pdfbox.cos.COSDocument;
 import org.apache.pdfbox.io.RandomAccessFile;
 import org.apache.pdfbox.pdfparser.PDFParser;
@@ -57,8 +55,9 @@ public class MainWindow extends javax.swing.JFrame {
     private File imgFile;
     private JFrame frmImgPrev;
     private JTextArea txtImgPrev;
-    public final int MODE_TEXT=0, MODE_IMG=0;
-    public int MODE=MODE_TEXT;
+    public final int MODE_TEXT = 0, MODE_IMG = 1;
+    public int MODE = MODE_TEXT;
+
     public MainWindow() {
         initComponents();
         try {
@@ -79,7 +78,6 @@ public class MainWindow extends javax.swing.JFrame {
         initDimensionsFolder();
         loadComboConfig();
         loadDistancesBraille();
-
 
         KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
         manager.addKeyEventDispatcher(new DispatcherListener(this));
@@ -143,7 +141,6 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        btnopenImg = new javax.swing.JButton();
         lblImgName = new javax.swing.JLabel();
         btnImgPreview = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
@@ -265,12 +262,6 @@ public class MainWindow extends javax.swing.JFrame {
         });
 
         jLabel7.setText("Vel motor Sheets");
-
-        txtvelcar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtvelcarActionPerformed(evt);
-            }
-        });
 
         btnCancelPrint.setText("Cancelar Impresion");
         btnCancelPrint.setEnabled(false);
@@ -433,13 +424,6 @@ public class MainWindow extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Impresion", jPanel1);
 
-        btnopenImg.setText("Abrir Imagen");
-        btnopenImg.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnopenImgActionPerformed(evt);
-            }
-        });
-
         btnImgPreview.setText("Visualizar");
         btnImgPreview.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -456,30 +440,17 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel14.setText("Config Conversion");
 
         checkUmbral230.setText("Umbral 230");
-        checkUmbral230.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                checkUmbral230ActionPerformed(evt);
-            }
-        });
 
         checkUmbral200.setText("Umbral 200");
-        checkUmbral200.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                checkUmbral200ActionPerformed(evt);
-            }
-        });
 
         checkUmbral180.setText("Umbral 180");
 
         checkUmbral70.setText("Umbral 70");
-        checkUmbral70.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                checkUmbral70ActionPerformed(evt);
-            }
-        });
 
+        checkUmbral160.setSelected(true);
         checkUmbral160.setText("Umbral 160");
 
+        checkUmbral130.setSelected(true);
         checkUmbral130.setText("Umbral 130");
 
         checkUmbral100.setText("Umbral 100");
@@ -498,10 +469,6 @@ public class MainWindow extends javax.swing.JFrame {
                     .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(btnopenImg)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblImgName))
                             .addComponent(btnImgPreview)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -529,16 +496,17 @@ public class MainWindow extends javax.swing.JFrame {
                                     .addComponent(checkUmbralBase)
                                     .addComponent(checkUmbral70)
                                     .addComponent(checkUmbral50))))
-                        .addContainerGap(367, Short.MAX_VALUE))))
+                        .addContainerGap(367, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(lblImgName)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnopenImg)
-                    .addComponent(lblImgName))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(9, 9, 9)
+                .addComponent(lblImgName)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -568,7 +536,7 @@ public class MainWindow extends javax.swing.JFrame {
                     .addComponent(checkUmbral160))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(checkUmbral130)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                 .addComponent(btnImgPreview)
                 .addContainerGap())
         );
@@ -601,7 +569,7 @@ public class MainWindow extends javax.swing.JFrame {
                     .addComponent(btnConvertir)
                     .addComponent(btnPrint))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1)
                 .addGap(0, 0, 0))
         );
 
@@ -668,6 +636,21 @@ public class MainWindow extends javax.swing.JFrame {
                     }
 
                 }
+            } else if (file.getName().endsWith("png") || file.getName().endsWith("gif") || file.getName().endsWith("jpg") || file.getName().endsWith("PNG") || file.getName().endsWith("GIF") || file.getName().endsWith("JPG")) {
+                try {
+                    imgFile = file;
+                    final BufferedImage image = ImageIO.read(imgFile);
+                    if (image == null) {
+                        throw new IllegalArgumentException(imgFile + " is not a valid image.");
+                    } else {
+                        lblImgName.setText(imgFile.getName());
+                        jTabbedPane1.setSelectedIndex(3);
+                        MODE=MODE_IMG;
+                    }
+
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
             } else {
                 try (BufferedReader br = new BufferedReader(new FileReader(file))) {
                     String line;
@@ -724,10 +707,6 @@ public class MainWindow extends javax.swing.JFrame {
         //199 vs
     }//GEN-LAST:event_btnCancelPrintActionPerformed
 
-    private void txtvelcarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtvelcarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtvelcarActionPerformed
-
     private void btnApplyDistancesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyDistancesActionPerformed
         checkDistances();
     }//GEN-LAST:event_btnApplyDistancesActionPerformed
@@ -739,27 +718,10 @@ public class MainWindow extends javax.swing.JFrame {
     private void comboConfigFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboConfigFileActionPerformed
         loadDistancesBraille();
     }//GEN-LAST:event_comboConfigFileActionPerformed
-
-    private void btnopenImgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnopenImgActionPerformed
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileFilter(new FileNameExtensionFilter("Images", "jpg", "gif", "png"));
-        while (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-            try {
-                imgFile = fileChooser.getSelectedFile();
-                final BufferedImage image = ImageIO.read(imgFile);
-                if (image == null) {
-                    throw new IllegalArgumentException(imgFile + " is not a valid image.");
-                } else {
-                    lblImgName.setText(imgFile.getName());
-                    break;
-                }
-
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-    }//GEN-LAST:event_btnopenImgActionPerformed
-
+    private boolean[] getUmbralConfig() {
+        boolean[] config = {checkUmbral230.isSelected(), checkUmbral200.isSelected(), checkUmbral180.isSelected(), checkUmbral160.isSelected(), checkUmbral130.isSelected(), checkUmbral100.isSelected(), checkUmbral70.isSelected(), checkUmbral50.isSelected(), checkUmbralBase.isSelected()};
+        return config;
+    }
     private void btnImgPreviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImgPreviewActionPerformed
         if (imgFile != null) {
             try {
@@ -769,16 +731,16 @@ public class MainWindow extends javax.swing.JFrame {
                 }
                 int ancho = 0;
                 int largo = 0;
-                
+
                 try {
                     ancho = Integer.parseInt(txtImgWidth.getText());
                     largo = Integer.parseInt(txtImgHeight.getText());
                 } catch (Exception e) {
                 }
-                boolean[] config = {checkUmbral230.isSelected(), checkUmbral200.isSelected(), checkUmbral180.isSelected(), checkUmbral160.isSelected(), checkUmbral130.isSelected(), checkUmbral100.isSelected(), checkUmbral70.isSelected(), checkUmbral50.isSelected(), checkUmbralBase.isSelected()};
+
                 if (ancho > 0 && largo > 0) {
-                    MODE=MODE_IMG;
-                    final String asciiText = new ASCII(largo, ancho, config).convert(image);
+                    MODE = MODE_IMG;
+                    final String asciiText = new ASCII(largo, ancho, getUmbralConfig()).convert(image);
                     if (frmImgPrev == null) {
                         txtImgPrev = new JTextArea(asciiText, largo, ancho);
                         txtImgPrev.setFont(new Font("Monospaced", Font.BOLD, 5));
@@ -844,18 +806,6 @@ public class MainWindow extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnImgPreviewActionPerformed
-
-    private void checkUmbral200ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkUmbral200ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_checkUmbral200ActionPerformed
-
-    private void checkUmbral230ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkUmbral230ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_checkUmbral230ActionPerformed
-
-    private void checkUmbral70ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkUmbral70ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_checkUmbral70ActionPerformed
     public void connectPrinter(boolean print) {
         new Thread(new Runnable() {
             @Override
@@ -952,14 +902,36 @@ public class MainWindow extends javax.swing.JFrame {
                 btnCancelPrint.setEnabled(true);
                 btnPrint.setEnabled(false);
                 setProgressValue(0);
-                String mad="";
-                if(MODE==MODE_TEXT){
+                String mad = "";
+                System.out.println("MODE "+MODE);
+                if (MODE == MODE_TEXT) {
                     String brailleText = txtBrailleText.getText().replace("\t", "    ");
                     mad = Braille.getMadText(brailleText, this);
-                }else if(MODE==MODE_IMG){
-                    //TODO convertir imagen a madtext
+                } else if (MODE == MODE_IMG) {
+                    BufferedImage image = null;
+                    try {
+                        image = ImageIO.read(imgFile);
+                    } catch (IOException ex) {
+                        Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    if (image == null) {
+                        JOptionPane.showMessageDialog(null, imgFile + " no es una imagen valida.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    int ancho = 0;
+                    int largo = 0;
+
+                    try {
+                        ancho = Integer.parseInt(txtImgWidth.getText());
+                        largo = Integer.parseInt(txtImgHeight.getText());
+                    } catch (Exception e) {
+                    }
+
+                    if (ancho > 0 && largo > 0) {
+                        MODE = MODE_IMG;
+                        final String asciiText = new ASCII(largo, ancho, getUmbralConfig()).convert(image);
+                        mad = Braille.getMadTextFromImage(asciiText, this);
+                    }
                 }
-                
                 connection.print(this, mad);
             }
         }
@@ -1074,7 +1046,6 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JButton btnOpenFile;
     private javax.swing.JButton btnPrint;
     private javax.swing.JButton btnTest;
-    private javax.swing.JButton btnopenImg;
     private javax.swing.JCheckBox checkUmbral100;
     private javax.swing.JCheckBox checkUmbral130;
     private javax.swing.JCheckBox checkUmbral160;

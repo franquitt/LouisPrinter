@@ -78,10 +78,10 @@ public class Braille {
                     continue;
                 }
                 String dir = System.getProperty("user.dir") + File.separator + "liblouis" + File.separator + "liblouis-mingw32";
-                String bin = dir + File.separator + "bin"+ File.separator + "lou_translate.exe";
-                String dicDir=dir+ File.separator +"share"+ File.separator +"liblouis"+ File.separator +"tables";
-                System.out.println(bin + " " +dicDir + File.separator +"unicode.dis," +  dicDir +File.separator +main.DIC);
-                Process p = Runtime.getRuntime().exec(bin + " " +dicDir + File.separator +"unicode.dis," +  dicDir +File.separator +main.DIC);
+                String bin = dir + File.separator + "bin" + File.separator + "lou_translate.exe";
+                String dicDir = dir + File.separator + "share" + File.separator + "liblouis" + File.separator + "tables";
+                System.out.println(bin + " " + dicDir + File.separator + "unicode.dis," + dicDir + File.separator + main.DIC);
+                Process p = Runtime.getRuntime().exec(bin + " " + dicDir + File.separator + "unicode.dis," + dicDir + File.separator + main.DIC);
                 BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
                 BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
                 OutputStream stdin = p.getOutputStream();
@@ -127,6 +127,21 @@ public class Braille {
         return answer;
     }
 
+    public static String getMadTextFromImage(String imgText, MainWindow main) {
+        String out = "";
+        String[] lines = imgText.replace(" ", main.BETWEEN_BRAILLE_DOTS).replace("*", "1").split("\n");
+        int renglones = 0;
+        for (String line : lines) {
+            out += line + main.BETWEEN_BRAILLE_LINES_DOTS;
+            renglones++;
+            if (renglones*3 == main.MAX_LINES_PER_SHEET) {
+                out += main.BETWEEN_BRAILLE_SHEETS + "\n";
+                renglones = 0;
+            }
+        }
+        return out;
+    }
+
     public static String getMadText(String braille, MainWindow main) {
         String symbol = "";
         String[] lines = braille.replace(" ", "\u2800").split("\n");
@@ -138,7 +153,7 @@ public class Braille {
             binlines[0] = "";
             binlines[1] = "";
             binlines[2] = "";
-            if(line.equals("")){
+            if (line.equals("")) {
                 out += main.BETWEEN_BRAILLE_LINES_DOTS + "\n";
                 out += main.BETWEEN_BRAILLE_LINES_DOTS + "\n";
                 out += main.BETWEEN_BRAILLE_LINES + "\n";
