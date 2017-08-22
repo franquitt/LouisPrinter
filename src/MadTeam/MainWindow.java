@@ -435,7 +435,11 @@ public class MainWindow extends javax.swing.JFrame {
 
         jLabel9.setText("Ancho");
 
+        txtImgWidth.setText("50");
+
         jLabel13.setText("Largo");
+
+        txtImgHeight.setText("50");
 
         jLabel14.setText("Config Conversion");
 
