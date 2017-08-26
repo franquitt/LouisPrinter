@@ -127,19 +127,31 @@ public class Braille {
         return answer;
     }
 
+    private static String saveCommandsFromImg(char separator, String input) {
+        for (int index = 9; index >= 2; index--) {
+            input = input.replace(new String(new char[index]).replace("\0", separator + ""), separator + "*" + index);
+        }
+        return input;
+    }
+
     public static String getMadTextFromImage(String imgText, MainWindow main) {
         String out = "";
         String[] lines = imgText.replace(" ", main.BETWEEN_BRAILLE_DOTS).replace("*", "1").split("\n");
         int renglones = 0;
         for (String line : lines) {
-            out += line + main.BETWEEN_BRAILLE_LINES_DOTS;
+            if (!line.contains("1")) {
+                out += main.BETWEEN_BRAILLE_LINES_DOTS + "\n";
+            } else {
+                out += line + main.BETWEEN_BRAILLE_LINES_DOTS + "\n";
+            }
+
             renglones++;
-            if (renglones*3 == main.MAX_LINES_PER_SHEET) {
+            if (renglones * 3 == main.MAX_LINES_PER_SHEET) {
                 out += main.BETWEEN_BRAILLE_SHEETS + "\n";
                 renglones = 0;
             }
         }
-        return out;
+        return saveCommandsFromImg(main.BETWEEN_BRAILLE_DOTS.charAt(0), out);
     }
 
     public static String getMadText(String braille, MainWindow main) {

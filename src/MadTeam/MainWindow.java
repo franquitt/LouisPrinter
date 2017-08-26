@@ -1,5 +1,4 @@
 package MadTeam;
-
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
@@ -776,7 +775,7 @@ public class MainWindow extends javax.swing.JFrame {
                                     ancho += 1;
                                     largo += 1;
                                     System.out.println(ancho + " " + largo);
-                                    final String asciiText = new ASCII(negative, largo, ancho).convert(image);
+                                    final String asciiText = new ASCII(largo, ancho, getUmbralConfig()).convert(image);
                                     if (frmImgPrev == null) {
                                         txtImgPrev = new JTextArea(asciiText, largo, ancho);
                                         txtImgPrev.setFont(new Font("Monospaced", Font.BOLD, 5));
@@ -1032,10 +1031,8 @@ public class MainWindow extends javax.swing.JFrame {
      */
     public static void main(String args[]) {
 
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainWindow().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new MainWindow().setVisible(true);
         });
         //</editor-fold>
     }
