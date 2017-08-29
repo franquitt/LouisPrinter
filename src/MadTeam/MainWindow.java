@@ -1,4 +1,5 @@
 package MadTeam;
+
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
@@ -7,6 +8,7 @@ import java.awt.KeyboardFocusManager;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -27,6 +29,10 @@ import org.apache.pdfbox.io.RandomAccessFile;
 import org.apache.pdfbox.pdfparser.PDFParser;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
+import org.apache.poi.hwpf.HWPFDocument;
+import org.apache.poi.hwpf.extractor.WordExtractor;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 
 /**
  *
@@ -639,6 +645,37 @@ public class MainWindow extends javax.swing.JFrame {
                     }
 
                 }
+            } else if (file.getName().endsWith("doc") || file.getName().endsWith("docx")) {
+                FileInputStream fis = null;
+                try {
+                    fis = new FileInputStream(file.getAbsolutePath());
+                    if (file.getName().endsWith("doc")) {
+
+                        HWPFDocument document = new HWPFDocument(fis);
+                        WordExtractor extractor = new WordExtractor(document);
+                        String[] fileData = extractor.getParagraphText();
+                        for (int i = 0; i < fileData.length; i++) {
+                            if (fileData[i] != null) {
+                                txtplaintext.append(fileData[i]);
+                            }
+                        }
+                    } else {
+                        XWPFDocument document = new XWPFDocument(fis);
+                        XWPFWordExtractor extractor = new XWPFWordExtractor(document);
+                        txtplaintext.append(extractor.getText());
+                    }
+
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                } finally {
+                    try {
+                        fis.close();
+                    } catch (IOException ex) {
+                        Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
             } else if (file.getName().endsWith("png") || file.getName().endsWith("gif") || file.getName().endsWith("jpg") || file.getName().endsWith("PNG") || file.getName().endsWith("GIF") || file.getName().endsWith("JPG")) {
                 try {
                     imgFile = file;
@@ -648,7 +685,7 @@ public class MainWindow extends javax.swing.JFrame {
                     } else {
                         lblImgName.setText(imgFile.getName());
                         jTabbedPane1.setSelectedIndex(3);
-                        MODE=MODE_IMG;
+                        MODE = MODE_IMG;
                     }
 
                 } catch (Exception e) {
@@ -906,7 +943,7 @@ public class MainWindow extends javax.swing.JFrame {
                 btnPrint.setEnabled(false);
                 setProgressValue(0);
                 String mad = "";
-                System.out.println("MODE "+MODE);
+                System.out.println("MODE " + MODE);
                 if (MODE == MODE_TEXT) {
                     String brailleText = txtBrailleText.getText().replace("\t", "    ");
                     mad = Braille.getMadText(brailleText, this);
