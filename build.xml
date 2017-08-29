@@ -10,6 +10,14 @@
 <project name="Braille_Printer" default="default" basedir=".">
     <description>Builds, tests, and runs the project Braille Printer.</description>
     <import file="nbproject/build-impl.xml"/>
+    <target name="-post-compile">
+        <copy todir="${dist.dir}/assets">
+            <fileset dir="assets"/>
+        </copy>
+        <copy todir="${dist.dir}/liblouis">
+            <fileset dir="liblouis"/>
+        </copy>
+    </target>
     <!--
 
     There exist several targets which are by default empty and which can be 
