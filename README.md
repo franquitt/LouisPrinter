@@ -6,6 +6,8 @@ Louis is a open source braille printer made with Java and Arduino, powered by [L
 + Linux: Yeah..(sigh) First of all you should download and compile(remember root!) [LibLouis]. Then copy some files: lib/Linux/RXTXcomm.jar goes in /jre/lib/ext (under java);
 lib/Linux/[machine type]/librxtxSerial.so goes in /jre/lib/[machine type] (i386 for instance)
 Make sure the user is in group lock or uucp so lockfiles work.
+An example location of jre its in /usr/lib/jvm/java-8-oracle/jre/
+
 
 The arduino source code is in [LouisPrinterArduino] repo
 
