@@ -77,11 +77,16 @@ public class Braille {
                     answer += "\n";
                     continue;
                 }
+                Process p=null;
+                if(System.getProperty("os.name").equals("Linux")){
+                    p = Runtime.getRuntime().exec("lou_translate " +"unicode.dis," + main.DIC);
+                }else{
                 String dir = System.getProperty("user.dir") + File.separator + "liblouis" + File.separator + "liblouis-mingw32";
                 String bin = dir + File.separator + "bin" + File.separator + "lou_translate.exe";
                 String dicDir = dir + File.separator + "share" + File.separator + "liblouis" + File.separator + "tables";
                 System.out.println(bin + " " + dicDir + File.separator + "unicode.dis," + dicDir + File.separator + main.DIC);
-                Process p = Runtime.getRuntime().exec(bin + " " + dicDir + File.separator + "unicode.dis," + dicDir + File.separator + main.DIC);
+                p = Runtime.getRuntime().exec(bin + " " + dicDir + File.separator + "unicode.dis," + dicDir + File.separator + main.DIC);
+                }
                 BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
                 BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
                 OutputStream stdin = p.getOutputStream();
