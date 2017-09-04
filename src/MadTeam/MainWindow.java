@@ -68,13 +68,14 @@ public class MainWindow extends javax.swing.JFrame {
         try {
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/FreeMono.ttf")));
-            myFont = new Font("FreeMono", Font.BOLD, 37);
+            myFont = new Font("FreeMono", Font.PLAIN, 37);
         } catch (IOException | FontFormatException e) {
             System.out.println("Warning! " + e.toString());
         }
         frmMsg.setSize(320, 101);
 
         txtBrailleText.setFont(myFont);
+        System.out.println(txtBrailleText.getFont().getFontName());
         //txtBrailleText.setText("\u2813\u2815\u2807\u2801");
         txtplaintext.setLineWrap(true);
         txtplaintext.setWrapStyleWord(true);
@@ -220,6 +221,7 @@ public class MainWindow extends javax.swing.JFrame {
         txtBrailleText.setEditable(false);
         txtBrailleText.setColumns(20);
         txtBrailleText.setRows(5);
+        txtBrailleText.setText("fdfdssss");
         jScrollPane2.setViewportView(txtBrailleText);
 
         jTabbedPane1.addTab("Braille", jScrollPane2);
