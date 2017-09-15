@@ -60,7 +60,7 @@ public class MainWindow extends javax.swing.JFrame {
     private File imgFile;
     private JFrame frmImgPrev;
     private JTextArea txtImgPrev;
-    public final int MODE_TEXT = 0, MODE_IMG = 1;
+    public final int MODE_TEXT = 0, MODE_IMG = 1, MODE_TABLE = 2;
     public int MODE = MODE_TEXT;
 
     public MainWindow() {
@@ -94,6 +94,8 @@ public class MainWindow extends javax.swing.JFrame {
         } catch (Exception e) {
             System.out.println("Error en initMain: " + e);
         }
+        jTable1.getTableHeader().setVisible(false);
+        jTable1.setTableHeader(null);
         
     }
     private void popup(String mensaje){
@@ -167,6 +169,16 @@ public class MainWindow extends javax.swing.JFrame {
         checkUmbral100 = new javax.swing.JCheckBox();
         checkUmbral50 = new javax.swing.JCheckBox();
         checkUmbralBase = new javax.swing.JCheckBox();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jLabel15 = new javax.swing.JLabel();
+        txtCols = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
+        txtFilas = new javax.swing.JTextField();
+        btnApplyTables = new javax.swing.JButton();
+        jLabel17 = new javax.swing.JLabel();
+        txtTableSpace = new javax.swing.JTextField();
 
         lblMsg.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblMsg.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -549,12 +561,93 @@ public class MainWindow extends javax.swing.JFrame {
                     .addComponent(checkUmbral160))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(checkUmbral130)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
                 .addComponent(btnImgPreview)
                 .addContainerGap())
         );
 
         jTabbedPane1.addTab("Imagen", jPanel2);
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane3.setViewportView(jTable1);
+
+        jLabel15.setText("Columnas");
+
+        txtCols.setText("4");
+        txtCols.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtColsActionPerformed(evt);
+            }
+        });
+
+        jLabel16.setText("Filas");
+
+        txtFilas.setText("4");
+
+        btnApplyTables.setText("Aplicar");
+        btnApplyTables.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnApplyTablesActionPerformed(evt);
+            }
+        });
+
+        jLabel17.setText("Espaciado");
+
+        txtTableSpace.setText("1");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 574, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel15)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtCols, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel16)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtFilas, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnApplyTables)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel17)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtTableSpace, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel15)
+                        .addComponent(txtCols, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel16)
+                        .addComponent(txtFilas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnApplyTables)
+                        .addComponent(jLabel17))
+                    .addComponent(txtTableSpace, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Tabla", jPanel3);
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
@@ -850,6 +943,24 @@ public class MainWindow extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnImgPreviewActionPerformed
+
+    private void txtColsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtColsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtColsActionPerformed
+    private void calcularEspaciado(){
+        
+    }
+    private void btnApplyTablesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyTablesActionPerformed
+        int rows=0, cols=0;
+        try{
+            cols = Integer.parseInt(txtCols.getText());
+            rows = Integer.parseInt(txtFilas.getText());
+            jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [rows][cols], new String[cols]));
+        }catch(NumberFormatException e){
+            popup("Ingrese dimensiones numericas para la tabla");
+        }   
+    }//GEN-LAST:event_btnApplyTablesActionPerformed
     public void connectPrinter(boolean print) {
         new Thread(new Runnable() {
             @Override
@@ -1086,6 +1197,7 @@ public class MainWindow extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddConfigFile;
     private javax.swing.JButton btnApplyDistances;
+    private javax.swing.JButton btnApplyTables;
     private javax.swing.JButton btnCancelPrint;
     private javax.swing.JButton btnConnectPrinter;
     private javax.swing.JButton btnConvertir;
@@ -1110,6 +1222,9 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1120,11 +1235,14 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblDistancias;
     private javax.swing.JLabel lblDots;
     private javax.swing.JLabel lblImgName;
@@ -1134,11 +1252,14 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JTextField txtB;
     private javax.swing.JTextArea txtBrailleText;
     private javax.swing.JTextField txtC;
+    private javax.swing.JTextField txtCols;
     private javax.swing.JTextField txtD;
+    private javax.swing.JTextField txtFilas;
     private javax.swing.JTextField txtImgHeight;
     private javax.swing.JTextField txtImgWidth;
     private javax.swing.JTextField txtMaxChars;
     private javax.swing.JTextField txtMaxLines;
+    private javax.swing.JTextField txtTableSpace;
     private javax.swing.JTextArea txtplaintext;
     private javax.swing.JTextField txtsleep;
     private javax.swing.JTextField txtvelcar;
