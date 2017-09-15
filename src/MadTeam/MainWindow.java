@@ -22,6 +22,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import org.apache.pdfbox.cos.COSDocument;
@@ -94,8 +95,9 @@ public class MainWindow extends javax.swing.JFrame {
         } catch (Exception e) {
             System.out.println("Error en initMain: " + e);
         }
-        jTable1.getTableHeader().setVisible(false);
-        jTable1.setTableHeader(null);
+        //jTable1.getTableHeader().setVisible(false);
+        //jTable1.setTableHeader(null);
+        jTable1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         
     }
     private void popup(String mensaje){
@@ -568,22 +570,21 @@ public class MainWindow extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Imagen", jPanel2);
 
+        jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Title 1"
             }
         ));
         jScrollPane3.setViewportView(jTable1);
 
         jLabel15.setText("Columnas");
 
-        txtCols.setText("4");
+        txtCols.setText("1");
         txtCols.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtColsActionPerformed(evt);
@@ -592,7 +593,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         jLabel16.setText("Filas");
 
-        txtFilas.setText("4");
+        txtFilas.setText("1");
 
         btnApplyTables.setText("Aplicar");
         btnApplyTables.addActionListener(new java.awt.event.ActionListener() {
@@ -957,6 +958,7 @@ public class MainWindow extends javax.swing.JFrame {
             rows = Integer.parseInt(txtFilas.getText());
             jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [rows][cols], new String[cols]));
+            jTable1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         }catch(NumberFormatException e){
             popup("Ingrese dimensiones numericas para la tabla");
         }   
