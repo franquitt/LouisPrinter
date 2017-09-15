@@ -582,7 +582,7 @@ public class MainWindow extends javax.swing.JFrame implements ChangeListener {
                 {null}
             },
             new String [] {
-                "Title 1"
+                "A"
             }
         ));
         jScrollPane3.setViewportView(jTable1);
@@ -1042,6 +1042,10 @@ public class MainWindow extends javax.swing.JFrame implements ChangeListener {
             case MODE_TEXT:
                 translate(txtplaintext.getText());
                 break;
+            case MODE_TABLE:
+                txtBrailleText.setText(Braille.translateTable(this));
+                jTabbedPane1.setSelectedIndex(1);
+                break;
         };
         
     }
@@ -1192,7 +1196,9 @@ public class MainWindow extends javax.swing.JFrame implements ChangeListener {
             e.printStackTrace();
         }
     }
-
+    public JTable getTable(){
+        return jTable1;
+    }
     @Override
     public void stateChanged(ChangeEvent e) {
         int selectedIndex = jTabbedPane1.getSelectedIndex();

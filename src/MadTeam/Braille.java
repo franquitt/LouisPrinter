@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
+import javax.swing.table.TableModel;
 import org.apache.commons.lang3.StringEscapeUtils;
 
 /**
@@ -77,10 +78,10 @@ public class Braille {
                     answer += "\n";
                     continue;
                 }
-                Process p=null;
-                if(System.getProperty("os.name").equals("Linux")){
-                    p = Runtime.getRuntime().exec("lou_translate " +"unicode.dis," + main.DIC);
-                }else{
+                Process p = null;
+                if (System.getProperty("os.name").equals("Linux")) {
+                    p = Runtime.getRuntime().exec("lou_translate " + "unicode.dis," + main.DIC);
+                } else {
                     String dir = System.getProperty("user.dir") + File.separator + "liblouis" + File.separator + "liblouis-mingw32";
                     String bin = dir + File.separator + "bin" + File.separator + "lou_translate.exe";
                     String dicDir = dir + File.separator + "share" + File.separator + "liblouis" + File.separator + "tables";
@@ -198,5 +199,29 @@ public class Braille {
         out = out.replace(main.BETWEEN_BRAILLE_DOTS + main.BETWEEN_BRAILLE_CHARS, main.BETWEEN_BRAILLE_DOTS_ZERO);
         out = out.replace(main.BETWEEN_BRAILLE_CHARS + main.BETWEEN_BRAILLE_DOTS, main.BETWEEN_BRAILLE_DOTS_ZERO);
         return out;
+    }
+
+    public static String translateTable(MainWindow main) {
+        String result = "";
+        TableModel model = main.getTable().getModel();
+        String[][] traducido = new String[model.getRowCount()][model.getColumnCount()];
+        for (int row = 0; row < model.getRowCount(); row++) {
+            for (int col = 0; col < model.getColumnCount(); col++) {
+                try {
+                    traducido[row][col] = translate(main, model.getValueAt(row, col).toString()).replace("\n", "");
+                } catch (NullPointerException e) {
+                    traducido[row][col] = "";
+                }
+                System.out.println(row + " " + col + "  " + traducido[row][col] + (traducido[row][col]).length() + StringEscapeUtils.unescapeJava(traducido[row][col]));
+            }
+        }
+        for (int row = 0; row < model.getRowCount(); row++) {
+            for (int col = 0; col < model.getColumnCount(); col++) {
+                
+                result+=result.equals("")?traducido[row][col]:"  "+traducido[row][col];
+            }
+            result+="\n";
+        }
+        return result;
     }
 }
