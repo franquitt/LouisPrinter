@@ -25,6 +25,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import org.apache.pdfbox.cos.COSDocument;
 import org.apache.pdfbox.io.RandomAccessFile;
 import org.apache.pdfbox.pdfparser.PDFParser;
@@ -39,7 +41,7 @@ import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
  *
  * @author FrancoMain
  */
-public class MainWindow extends javax.swing.JFrame {
+public class MainWindow extends javax.swing.JFrame implements ChangeListener {
 
     /**
      * Creates new form MainWindow
@@ -63,7 +65,7 @@ public class MainWindow extends javax.swing.JFrame {
     private JTextArea txtImgPrev;
     public final int MODE_TEXT = 0, MODE_IMG = 1, MODE_TABLE = 2;
     public int MODE = MODE_TEXT;
-
+    
     public MainWindow() {
         initComponents();
         try {
@@ -74,18 +76,18 @@ public class MainWindow extends javax.swing.JFrame {
             System.out.println("Warning! " + e.toString());
         }
         frmMsg.setSize(320, 101);
-
+        
         txtBrailleText.setFont(myFont);
         System.out.println(txtBrailleText.getFont().getFontName());
         //txtBrailleText.setText("\u2813\u2815\u2807\u2801");
         txtplaintext.setLineWrap(true);
         txtplaintext.setWrapStyleWord(true);
         frmMsg.setSize(320, 101);
-
+        
         initDimensionsFolder();
         loadComboConfig();
         loadDistancesBraille();
-
+        
         KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
         manager.addKeyEventDispatcher(new DispatcherListener(this));
         try {
@@ -98,11 +100,14 @@ public class MainWindow extends javax.swing.JFrame {
         //jTable1.getTableHeader().setVisible(false);
         //jTable1.setTableHeader(null);
         jTable1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        jTabbedPane1.addChangeListener(this);
         
     }
-    private void popup(String mensaje){
+
+    private void popup(String mensaje) {
         JOptionPane.showMessageDialog(rootPane, mensaje);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -698,16 +703,16 @@ public class MainWindow extends javax.swing.JFrame {
     public int getMaxCharsLine() {
         return MAX_CHARS_PER_LINE;
     }
-
+    
     public int getMaxLinesSheet() {
         return MAX_LINES_PER_SHEET;
     }
-
+    
     public void printed() {
         btnCancelPrint.setEnabled(false);
         btnPrint.setEnabled(true);
     }
-
+    
     public void openFile() {        
         JFileChooser fc = new JFileChooser();
         int result = fc.showOpenDialog(rootPane);
@@ -715,7 +720,7 @@ public class MainWindow extends javax.swing.JFrame {
             File file = fc.getSelectedFile();
             System.out.println(file.getAbsolutePath());
             if (file.getName().endsWith("pdf")) {
-
+                
                 PDFParser parser = null;
                 PDDocument pdDoc = null;
                 COSDocument cosDoc = null;
@@ -741,14 +746,14 @@ public class MainWindow extends javax.swing.JFrame {
                     } catch (Exception e1) {
                         e1.printStackTrace();
                     }
-
+                    
                 }
             } else if (file.getName().endsWith("doc") || file.getName().endsWith("docx")) {
                 FileInputStream fis = null;
                 try {
                     fis = new FileInputStream(file.getAbsolutePath());
                     if (file.getName().endsWith("doc")) {
-
+                        
                         HWPFDocument document = new HWPFDocument(fis);
                         WordExtractor extractor = new WordExtractor(document);
                         String[] fileData = extractor.getParagraphText();
@@ -762,7 +767,7 @@ public class MainWindow extends javax.swing.JFrame {
                         XWPFWordExtractor extractor = new XWPFWordExtractor(document);
                         txtplaintext.append(extractor.getText());
                     }
-
+                    
                 } catch (FileNotFoundException ex) {
                     Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (IOException ex) {
@@ -785,7 +790,7 @@ public class MainWindow extends javax.swing.JFrame {
                         jTabbedPane1.setSelectedIndex(3);
                         MODE = MODE_IMG;
                     }
-
+                    
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -825,7 +830,7 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAddConfigFileActionPerformed
 
     private void btnTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTestActionPerformed
-
+        
         String text = "";
         for (int i = 0; i < MAX_CHARS_PER_LINE; i++) {
             text = text + "y";
@@ -869,13 +874,13 @@ public class MainWindow extends javax.swing.JFrame {
                 }
                 int ancho = 0;
                 int largo = 0;
-
+                
                 try {
                     ancho = Integer.parseInt(txtImgWidth.getText());
                     largo = Integer.parseInt(txtImgHeight.getText());
                 } catch (Exception e) {
                 }
-
+                
                 if (ancho > 0 && largo > 0) {
                     MODE = MODE_IMG;
                     final String asciiText = new ASCII(largo, ancho, getUmbralConfig()).convert(image);
@@ -948,20 +953,17 @@ public class MainWindow extends javax.swing.JFrame {
     private void txtColsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtColsActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtColsActionPerformed
-    private void calcularEspaciado(){
-        
-    }
     private void btnApplyTablesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyTablesActionPerformed
-        int rows=0, cols=0;
-        try{
+        int rows, cols;
+        try {
             cols = Integer.parseInt(txtCols.getText());
             rows = Integer.parseInt(txtFilas.getText());
             jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [rows][cols], new String[cols]));
+                    new Object[rows][cols], new String[cols]));
             jTable1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        }catch(NumberFormatException e){
+        } catch (NumberFormatException e) {
             popup("Ingrese dimensiones numericas para la tabla");
-        }   
+        }        
     }//GEN-LAST:event_btnApplyTablesActionPerformed
     public void connectPrinter(boolean print) {
         new Thread(new Runnable() {
@@ -984,15 +986,15 @@ public class MainWindow extends javax.swing.JFrame {
                     }
                 }
                 if (print) {
-
+                    
                     print();
                 }
             }
         }).start();
     }
-
+    
     public void checkDistances() {
-
+        
         if (checkValue(txtA) && checkValue(txtB) && checkValue(txtC) && checkValue(txtD) && checkValue(txtMaxChars) && checkValue(txtMaxLines) && checkValue(txtvelcar) && checkValue(txtvelsheets) && checkValue(txtsleep)) {
             try {
                 Object selectedFile = comboConfigFile.getSelectedItem();
@@ -1017,7 +1019,7 @@ public class MainWindow extends javax.swing.JFrame {
             }
         }
     }
-
+    
     private boolean checkValue(JTextField txt) {
         if (txt.getText().equals("")) {
             return false;
@@ -1028,35 +1030,41 @@ public class MainWindow extends javax.swing.JFrame {
         } catch (NumberFormatException e) {
             return false;
         }
-
+        
     }
-
+    
     public void setProgressValue(int value) {
         jProgressBar1.setValue(value);
     }
-
+    
     public void translate() {
-        translate(txtplaintext.getText());
+        switch (MODE) {
+            case MODE_TEXT:
+                translate(txtplaintext.getText());
+                break;
+        };
+        
     }
-
+    
     public void translate(String base) {
         MODE = MODE_TEXT;
         txtBrailleText.setText("");
         txtBrailleText.setFont(myFont);
-
+        
         if (base.equals("")) {
             return;
         }
         txtBrailleText.setText(Braille.translate(this, base));
         System.out.println("##Conversion Finalizada");
-        int sheets =(int) Math.floor( txtBrailleText.getText().split("\n").length / MAX_LINES_PER_SHEET);
-        if(sheets==1|| sheets==0)
+        int sheets = (int) Math.floor(txtBrailleText.getText().split("\n").length / MAX_LINES_PER_SHEET);
+        if (sheets == 1 || sheets == 0) {
             popup("Se tradujo a 1 hoja");
-        else
-            popup("Se tradujo a "+Integer.toString(sheets)+" hojas");
+        } else {
+            popup("Se tradujo a " + Integer.toString(sheets) + " hojas");
+        }
         jTabbedPane1.setSelectedIndex(1);
     }
-
+    
     public void print() {
         jTabbedPane1.setSelectedIndex(2);
         if (connection != null) {
@@ -1081,13 +1089,13 @@ public class MainWindow extends javax.swing.JFrame {
                     }
                     int ancho = 0;
                     int largo = 0;
-
+                    
                     try {
                         ancho = Integer.parseInt(txtImgWidth.getText());
                         largo = Integer.parseInt(txtImgHeight.getText());
                     } catch (Exception e) {
                     }
-
+                    
                     if (ancho > 0 && largo > 0) {
                         MODE = MODE_IMG;
                         final String asciiText = new ASCII(largo, ancho, getUmbralConfig()).convert(image);
@@ -1098,7 +1106,7 @@ public class MainWindow extends javax.swing.JFrame {
             }
         }
     }
-
+    
     private void createConfigFile(String name) {
         try {
             PrintWriter writer = new PrintWriter("dims/" + name + ".lou", "UTF-8");
@@ -1116,7 +1124,7 @@ public class MainWindow extends javax.swing.JFrame {
             // do something
         }
     }
-
+    
     private void initDimensionsFolder() {
         File folder = new File("dims");
         if (!folder.exists()) {
@@ -1126,17 +1134,17 @@ public class MainWindow extends javax.swing.JFrame {
             createConfigFile("default");
         }
     }
-
+    
     private void loadComboConfig() {
         File[] list = new File("dims").listFiles();
         String[] configFiles = new String[list.length];
         for (int i = 0; i < list.length; i++) {
             configFiles[i] = list[i].getName().substring(0, list[i].getName().length() - 4);
-
+            
         }
         comboConfigFile.setModel(new javax.swing.DefaultComboBoxModel<>(configFiles));
     }
-
+    
     private void setDistancesBraille() {
         txtA.setText(d_A + "");
         txtB.setText(d_B + "");
@@ -1148,7 +1156,7 @@ public class MainWindow extends javax.swing.JFrame {
         txtvelcar.setText(vel_car + "");
         txtsleep.setText(sleep_time + "");
     }
-
+    
     private void loadDistancesBraille() {
         try {
             Object selectedFile = comboConfigFile.getSelectedItem();
@@ -1185,11 +1193,29 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }
 
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        int selectedIndex = jTabbedPane1.getSelectedIndex();
+        switch (selectedIndex) {
+            case 0:
+                MODE = MODE_TEXT;
+                break;
+            case 3:
+                MODE = MODE_IMG;
+                break;
+            case 4:
+                MODE = MODE_TABLE;
+                break;
+            default:
+                break;
+        }
+    }
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-
+        
         java.awt.EventQueue.invokeLater(() -> {
             new MainWindow().setVisible(true);
         });
