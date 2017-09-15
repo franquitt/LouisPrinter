@@ -94,9 +94,11 @@ public class MainWindow extends javax.swing.JFrame {
         } catch (Exception e) {
             System.out.println("Error en initMain: " + e);
         }
-
+        
     }
-
+    private void popup(String mensaje){
+        JOptionPane.showMessageDialog(rootPane, mensaje);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -612,7 +614,7 @@ public class MainWindow extends javax.swing.JFrame {
         btnPrint.setEnabled(true);
     }
 
-    public void openFile() {
+    public void openFile() {        
         JFileChooser fc = new JFileChooser();
         int result = fc.showOpenDialog(rootPane);
         if (result == JFileChooser.APPROVE_OPTION) {
@@ -934,6 +936,11 @@ public class MainWindow extends javax.swing.JFrame {
         }
         txtBrailleText.setText(Braille.translate(this, base));
         System.out.println("##Conversion Finalizada");
+        int sheets =(int) Math.floor( txtBrailleText.getText().split("\n").length / MAX_LINES_PER_SHEET);
+        if(sheets==1|| sheets==0)
+            popup("Se tradujo a 1 hoja");
+        else
+            popup("Se tradujo a "+Integer.toString(sheets)+" hojas");
         jTabbedPane1.setSelectedIndex(1);
     }
 
