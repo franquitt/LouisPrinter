@@ -1196,6 +1196,9 @@ public class MainWindow extends javax.swing.JFrame implements ChangeListener {
             e.printStackTrace();
         }
     }
+    public int getTableSpace(){
+        return Integer.parseInt(txtTableSpace.getText());
+    }
     public JTable getTable(){
         return jTable1;
     }

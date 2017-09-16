@@ -214,27 +214,50 @@ public class Braille {
                 }
             }
         }
-        for (int row = 0; row < model.getRowCount(); row++) {
-            for (int col = 0; col < model.getColumnCount(); col++) {
-                
-                result+=result.equals("")?traducido[row][col]:"  "+traducido[row][col];
+        int[] sizes = getMaxSizeofCols(traducido);
+        //este es el tamaño maximo que puede tener cada row de la tabla
+        int maxRowLength = main.getTableSpace() * (model.getRowCount() - 1);
+        for (int tam : sizes) {
+            maxRowLength += tam;
+        }
+        if (maxRowLength <= main.MAX_CHARS_PER_LINE) {//mejor caso posible!
+            for (int row = 0; row < model.getRowCount(); row++) {
+                boolean newLine=true;
+                for (int col = 0; col < model.getColumnCount(); col++) {
+                    if(newLine){
+                        result += traducido[row][col];
+                        newLine=false;
+                    }else{
+                         result +=getSpaces(main.getTableSpace()) + traducido[row][col];
+                    }
+                }
+                newLine=true;
+                result += "\n";
             }
-            result+="\n";
+        }
+
+        return result;
+    }
+    private static String getSpaces(int cant){
+        String result="";
+        for(int i=0;i<cant;i++){
+            result+=" ";
         }
         return result;
     }
-    private static int getMaxSizeofCol(String[][] table, int index){
-        int size=0;
-        for(int row=0;row<table.length;row++){
-            size=size<(table[row][index].length())?table[row][index].length():size;
+    private static int getMaxSizeofCol(String[][] table, int index) {
+        int size = 0;
+        for (int row = 0; row < table.length; row++) {
+            size = size < (table[row][index].length()) ? table[row][index].length() : size;
         }
         return size;
     }
-    private static int[] getMacSizeofCols(String[][] table){
-        int[] sizes=new int[table[0].length];
-        for(int col=0;col<table[0].length;col++){
-            sizes[col]=getMaxSizeofCol(table, col);
+
+    private static int[] getMaxSizeofCols(String[][] table) {
+        int[] sizes = new int[table[0].length];
+        for (int col = 0; col < table[0].length; col++) {
+            sizes[col] = getMaxSizeofCol(table, col);
         }
-        return sizes;               
+        return sizes;
     }
 }
