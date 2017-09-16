@@ -216,7 +216,7 @@ public class Braille {
             }
         }
         //este es el tamaño maximo que puede tener cada row de la tabla
-        int[] sizes = getMaxSizeofCols(traducido);        
+        int[] sizes = getMaxSizeofCols(traducido);
         int consumidoPorEspaciado = main.getTableSpace() * (cols - 1);
         int maxRowLength = consumidoPorEspaciado;
         for (int tam : sizes) {
@@ -233,13 +233,15 @@ public class Braille {
                         result += getSpaces(main.getTableSpace() + sizes[col - 1] - traducido[row][col - 1].length()) + traducido[row][col];
                     }
                 }
-                result += "\n";
+                if (row != rows - 1) {
+                    result += "\n";
+                }
             }
         } else {//well.. va a haber que hacer unos substrings           
             int restante = main.MAX_CHARS_PER_LINE - consumidoPorEspaciado;
             int promlimite = (int) Math.floor(restante / cols);
             int[] mayores = new int[cols];
-            
+
             int aCortar = 0;
             for (int i = 0; i < cols; i++) {
                 //reviso que columnas se pasan de su permitido y deben ser recortadas
@@ -256,10 +258,78 @@ public class Braille {
                     int porcentMay = (int) Math.floor((sizes[i] * 100) / aCortar);
                     sizes[i] = (int) Math.floor((porcentMay * restante) / 100);
                 }
-                 System.out.println("SIZE " + i + "=" + sizes[i]);
+            }
+            String[] cortados = new String[cols];
+            String colAnterior = "";
+            for (int row = 0; row < rows; row++) {
+                boolean newLine = true;
+                for (int col = 0; col < cols; col++) {
+                    if (newLine) {
+                        if (traducido[row][col].length() <= sizes[col]) {
+                            colAnterior = traducido[row][col];
+                            cortados[col] = "";
+                        } else {
+                            colAnterior = traducido[row][col].substring(0, sizes[col]);
+                            cortados[col] = traducido[row][col].substring(sizes[col]);
+                        }
+                        result += colAnterior;
+                        newLine = false;
+                    } else {
+                        result += getSpaces(main.getTableSpace() + sizes[col - 1] - colAnterior.length());
+                        if (traducido[row][col].length() <= sizes[col]) {
+                            colAnterior = traducido[row][col];
+                            cortados[col] = "";
+                        } else {
+                            colAnterior = traducido[row][col].substring(0, sizes[col]);
+                            cortados[col] = traducido[row][col].substring(sizes[col]);
+                        }
+                        result += colAnterior;
+                    }
+                }
+                while (!isEmpty(cortados)) {
+                    result += "\n";
+                    newLine = true;
+                    for (int col = 0; col < cols; col++) {
+                        if (newLine) {
+                            if (cortados[col].length() <= sizes[col]) {
+                                colAnterior = cortados[col];
+                                cortados[col] = "";
+                            } else {
+                                colAnterior = cortados[col].substring(0, sizes[col]);
+                                cortados[col] = cortados[col].substring(sizes[col]);
+                            }
+                            result += colAnterior;
+                            newLine = false;
+                        } else {
+                            result += getSpaces(main.getTableSpace() + sizes[col - 1] - colAnterior.length());
+                            if (cortados[col].length() <= sizes[col]) {
+                                colAnterior = cortados[col];
+                                cortados[col] = "";
+                            } else {
+                                colAnterior = cortados[col].substring(0, sizes[col]);
+                                cortados[col] = cortados[col].substring(sizes[col]);
+                            }
+                            result += colAnterior;
+                        }
+                    }
+                }
+                if (row != rows - 1) {
+                    result += "\n";
+                }
             }
         }
 
+        return result;
+    }
+
+    private static boolean isEmpty(String[] var) {
+        boolean result = true;
+        for (String elem : var) {
+            if (!elem.equals("")) {
+                result = false;
+                break;
+            }
+        }
         return result;
     }
 

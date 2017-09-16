@@ -579,10 +579,10 @@ public class MainWindow extends javax.swing.JFrame implements ChangeListener {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null}
+                {"hola", "manola todo", "bien amigo", "nuestro"}
             },
             new String [] {
-                "A"
+                "A", "B", "C", "D"
             }
         ));
         jScrollPane3.setViewportView(jTable1);
