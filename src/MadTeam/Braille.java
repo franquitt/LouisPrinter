@@ -204,9 +204,10 @@ public class Braille {
     public static String translateTable(MainWindow main) {
         String result = "";
         TableModel model = main.getTable().getModel();
-        String[][] traducido = new String[model.getRowCount()][model.getColumnCount()];
-        for (int row = 0; row < model.getRowCount(); row++) {
-            for (int col = 0; col < model.getColumnCount(); col++) {
+        int cols = model.getColumnCount(), rows = model.getRowCount();
+        String[][] traducido = new String[rows][cols];
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
                 try {
                     traducido[row][col] = translate(main, model.getValueAt(row, col).toString()).replace("\n", "");
                 } catch (NullPointerException e) {
@@ -214,39 +215,62 @@ public class Braille {
                 }
             }
         }
-        int[] sizes = getMaxSizeofCols(traducido);
         //este es el tamaño maximo que puede tener cada row de la tabla
-        int maxRowLength = main.getTableSpace() * (model.getRowCount() - 1);
+        int[] sizes = getMaxSizeofCols(traducido);        
+        int consumidoPorEspaciado = main.getTableSpace() * (cols - 1);
+        int maxRowLength = consumidoPorEspaciado;
         for (int tam : sizes) {
             maxRowLength += tam;
         }
-        if (maxRowLength <= main.MAX_CHARS_PER_LINE) {//mejor caso posible!
-            for (int row = 0; row < model.getRowCount(); row++) {
-                boolean newLine=true;
-                int index=0;
-                for (int col = 0; col < model.getColumnCount(); col++) {
-                    if(newLine){
+        if (maxRowLength <= main.MAX_CHARS_PER_LINE) {//mejor caso posible!, no hace falta recortar ninguna columna
+            for (int row = 0; row < rows; row++) {
+                boolean newLine = true;
+                for (int col = 0; col < cols; col++) {
+                    if (newLine) {
                         result += traducido[row][col];
-                        index=traducido[row][col].length();
-                        newLine=false;
-                    }else{
-                         result +=getSpaces(main.getTableSpace()+sizes[col-1]-traducido[row][col-1].length()) + traducido[row][col];
+                        newLine = false;
+                    } else {
+                        result += getSpaces(main.getTableSpace() + sizes[col - 1] - traducido[row][col - 1].length()) + traducido[row][col];
                     }
                 }
-                newLine=true;
                 result += "\n";
+            }
+        } else {//well.. va a haber que hacer unos substrings           
+            int restante = main.MAX_CHARS_PER_LINE - consumidoPorEspaciado;
+            int promlimite = (int) Math.floor(restante / cols);
+            int[] mayores = new int[cols];
+            
+            int aCortar = 0;
+            for (int i = 0; i < cols; i++) {
+                //reviso que columnas se pasan de su permitido y deben ser recortadas
+                if (sizes[i] <= promlimite) {
+                    mayores[i] = 0;
+                    restante -= sizes[i];
+                } else {
+                    mayores[i] = 1;
+                    aCortar += sizes[i];
+                }
+            }
+            for (int i = 0; i < cols; i++) {
+                if (mayores[i] == 1) {
+                    int porcentMay = (int) Math.floor((sizes[i] * 100) / aCortar);
+                    sizes[i] = (int) Math.floor((porcentMay * restante) / 100);
+                }
+                 System.out.println("SIZE " + i + "=" + sizes[i]);
             }
         }
 
         return result;
     }
-    private static String getSpaces(int cant){
-        String result="";
-        for(int i=0;i<cant;i++){
-            result+=" ";
+
+    private static String getSpaces(int cant) {
+        String result = "";
+        for (int i = 0; i < cant; i++) {
+            result += " ";
         }
         return result;
     }
+
     private static int getMaxSizeofCol(String[][] table, int index) {
         int size = 0;
         for (int row = 0; row < table.length; row++) {
@@ -262,4 +286,4 @@ public class Braille {
         }
         return sizes;
     }
-}        
+}
