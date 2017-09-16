@@ -212,7 +212,6 @@ public class Braille {
                 } catch (NullPointerException e) {
                     traducido[row][col] = "";
                 }
-                System.out.println(row + " " + col + "  " + traducido[row][col] + (traducido[row][col]).length() + StringEscapeUtils.unescapeJava(traducido[row][col]));
             }
         }
         for (int row = 0; row < model.getRowCount(); row++) {
@@ -223,5 +222,19 @@ public class Braille {
             result+="\n";
         }
         return result;
+    }
+    private static int getMaxSizeofCol(String[][] table, int index){
+        int size=0;
+        for(int row=0;row<table.length;row++){
+            size=size<(table[row][index].length())?table[row][index].length():size;
+        }
+        return size;
+    }
+    private static int[] getMacSizeofCols(String[][] table){
+        int[] sizes=new int[table[0].length];
+        for(int col=0;col<table[0].length;col++){
+            sizes[col]=getMaxSizeofCol(table, col);
+        }
+        return sizes;               
     }
 }
