@@ -223,12 +223,14 @@ public class Braille {
         if (maxRowLength <= main.MAX_CHARS_PER_LINE) {//mejor caso posible!
             for (int row = 0; row < model.getRowCount(); row++) {
                 boolean newLine=true;
+                int index=0;
                 for (int col = 0; col < model.getColumnCount(); col++) {
                     if(newLine){
                         result += traducido[row][col];
+                        index=traducido[row][col].length();
                         newLine=false;
                     }else{
-                         result +=getSpaces(main.getTableSpace()) + traducido[row][col];
+                         result +=getSpaces(main.getTableSpace()+sizes[col-1]-traducido[row][col-1].length()) + traducido[row][col];
                     }
                 }
                 newLine=true;
@@ -260,4 +262,4 @@ public class Braille {
         }
         return sizes;
     }
-}
+}        
