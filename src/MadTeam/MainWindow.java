@@ -965,7 +965,7 @@ public class MainWindow extends javax.swing.JFrame implements ChangeListener {
             popup("Ingrese dimensiones numericas para la tabla");
         }        
     }//GEN-LAST:event_btnApplyTablesActionPerformed
-    public void connectPrinter(boolean print) {
+    public void connectPrinter(final boolean print) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -1225,8 +1225,11 @@ public class MainWindow extends javax.swing.JFrame implements ChangeListener {
      */
     public static void main(String args[]) {
         
-        java.awt.EventQueue.invokeLater(() -> {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+
+            public void run() {
             new MainWindow().setVisible(true);
+            }
         });
         //</editor-fold>
     }
