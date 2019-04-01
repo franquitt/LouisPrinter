@@ -1078,7 +1078,7 @@ public class MainWindow extends javax.swing.JFrame implements ChangeListener {
                 setProgressValue(0);
                 String mad = "";
                 System.out.println("MODE " + MODE);
-                if (MODE == MODE_TEXT) {
+                if (MODE == MODE_TEXT || MODE == MODE_TABLE) {
                     String brailleText = txtBrailleText.getText().replace("\t", "    ");
                     mad = Braille.getMadText(brailleText, this);
                 } else if (MODE == MODE_IMG) {
@@ -1106,6 +1106,7 @@ public class MainWindow extends javax.swing.JFrame implements ChangeListener {
                         mad = Braille.getMadTextFromImage(asciiText, this);
                     }
                 }
+                System.out.println("MadText: "+mad);
                 connection.print(this, mad);
             }
         }
