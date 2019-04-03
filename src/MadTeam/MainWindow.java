@@ -59,7 +59,7 @@ public class MainWindow extends javax.swing.JFrame implements ChangeListener {
     public int MAX_CHARS_PER_LINE = 32;
     public int MAX_LINES_PER_SHEET = 32;
     private MadConnection connection;
-    public int d_A = 25, d_B = 35, d_C = 25, d_D = 50, vel_sheet = 60, vel_car = 90, sleep_time = 100;
+    public int d_A = 25, d_B = 35, d_C = 25, d_D = 50, vel_sheet = 60, vel_car = 90, sleep_time = 100, dist_carro;
     private File imgFile;
     private JFrame frmImgPrev;
     private JTextArea txtImgPrev;
@@ -157,6 +157,8 @@ public class MainWindow extends javax.swing.JFrame implements ChangeListener {
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        txtDistanciaInicio = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         lblImgName = new javax.swing.JLabel();
         btnImgPreview = new javax.swing.JButton();
@@ -291,6 +293,12 @@ public class MainWindow extends javax.swing.JFrame implements ChangeListener {
 
         jLabel7.setText("Vel motor Sheets");
 
+        txtsleep.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtsleepActionPerformed(evt);
+            }
+        });
+
         btnCancelPrint.setText("Cancelar Impresion");
         btnCancelPrint.setEnabled(false);
         btnCancelPrint.addActionListener(new java.awt.event.ActionListener() {
@@ -325,6 +333,8 @@ public class MainWindow extends javax.swing.JFrame implements ChangeListener {
 
         jLabel12.setText("Sleep Ops");
 
+        jLabel18.setText("Distancia carro");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -340,62 +350,60 @@ public class MainWindow extends javax.swing.JFrame implements ChangeListener {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnTest))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(lblDots, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(lblDots, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                                        .addComponent(jLabel3)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addComponent(txtC, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                                        .addComponent(jLabel1)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addComponent(txtA, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                                .addGap(24, 24, 24)
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                    .addComponent(jLabel2)
-                                                    .addComponent(jLabel4))
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                    .addComponent(txtB, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(txtD, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGap(59, 59, 59))
-                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                                .addComponent(jLabel10)
-                                                .addGap(58, 58, 58)))
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(btnApplyDistances, javax.swing.GroupLayout.Alignment.TRAILING)
-                                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(jLabel6)
-                                                        .addComponent(jLabel5)
-                                                        .addComponent(jLabel7))
-                                                    .addGap(24, 24, 24)
-                                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(txtvelsheets, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(txtMaxChars, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(txtMaxLines, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jLabel11)
-                                                    .addComponent(jLabel12))
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                    .addComponent(txtvelcar, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(txtsleep, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(btnAddConfigFile, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel3)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(comboConfigFile, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addComponent(lblDistancias))
-                        .addGap(0, 89, Short.MAX_VALUE)))
+                                        .addComponent(txtC, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtA, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(24, 24, 24)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel4))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(txtB, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtD, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(59, 59, 59))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                        .addComponent(btnAddConfigFile, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(comboConfigFile, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 6, Short.MAX_VALUE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel7))
+                                .addGap(24, 24, 24)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtvelsheets, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtMaxChars, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtMaxLines, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(btnApplyDistances, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel11)
+                                    .addComponent(jLabel12)
+                                    .addComponent(jLabel18))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtDistanciaInicio)
+                                    .addComponent(txtvelcar, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
+                                    .addComponent(txtsleep, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE))))
+                        .addGap(6, 6, 6))
+                    .addComponent(lblDistancias))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -439,15 +447,20 @@ public class MainWindow extends javax.swing.JFrame implements ChangeListener {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtsleep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel10)
                             .addComponent(jLabel12))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(comboConfigFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnApplyDistances)
-                            .addComponent(btnAddConfigFile)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel18)
+                            .addComponent(txtDistanciaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(lblDots, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(17, 17, 17))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addComponent(jLabel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAddConfigFile)
+                    .addComponent(comboConfigFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnApplyDistances))
+                .addGap(62, 62, 62))
         );
 
         jTabbedPane1.addTab("Impresion", jPanel1);
@@ -528,7 +541,7 @@ public class MainWindow extends javax.swing.JFrame implements ChangeListener {
                                     .addComponent(checkUmbralBase)
                                     .addComponent(checkUmbral70)
                                     .addComponent(checkUmbral50))))
-                        .addContainerGap(367, Short.MAX_VALUE))
+                        .addContainerGap(377, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(lblImgName)
                         .addGap(0, 0, Short.MAX_VALUE))))
@@ -616,7 +629,7 @@ public class MainWindow extends javax.swing.JFrame implements ChangeListener {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 574, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 584, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
@@ -662,7 +675,7 @@ public class MainWindow extends javax.swing.JFrame implements ChangeListener {
             .addGroup(mainPanelLayout.createSequentialGroup()
                 .addGap(0, 0, 0)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTabbedPane1)
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 599, Short.MAX_VALUE)
                     .addGroup(mainPanelLayout.createSequentialGroup()
                         .addComponent(btnOpenFile)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -965,6 +978,10 @@ public class MainWindow extends javax.swing.JFrame implements ChangeListener {
             popup("Ingrese dimensiones numericas para la tabla");
         }        
     }//GEN-LAST:event_btnApplyTablesActionPerformed
+
+    private void txtsleepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtsleepActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtsleepActionPerformed
     public void connectPrinter(final boolean print) {
         new Thread(new Runnable() {
             @Override
@@ -995,7 +1012,7 @@ public class MainWindow extends javax.swing.JFrame implements ChangeListener {
     
     public void checkDistances() {
         
-        if (checkValue(txtA) && checkValue(txtB) && checkValue(txtC) && checkValue(txtD) && checkValue(txtMaxChars) && checkValue(txtMaxLines) && checkValue(txtvelcar) && checkValue(txtvelsheets) && checkValue(txtsleep)) {
+        if (checkValue(txtA) && checkValue(txtB) && checkValue(txtC) && checkValue(txtD) && checkValue(txtMaxChars) && checkValue(txtMaxLines) && checkValue(txtvelcar) && checkValue(txtvelsheets) && checkValue(txtsleep) && checkValue(txtDistanciaInicio)) {
             try {
                 Object selectedFile = comboConfigFile.getSelectedItem();
                 if (selectedFile == null) {
@@ -1012,6 +1029,7 @@ public class MainWindow extends javax.swing.JFrame implements ChangeListener {
                 out.println(txtvelsheets.getText());
                 out.println(txtvelcar.getText());
                 out.println(txtsleep.getText());
+                out.println(txtDistanciaInicio.getText());
                 out.close();
                 loadDistancesBraille();
             } catch (FileNotFoundException ex) {
@@ -1115,8 +1133,8 @@ public class MainWindow extends javax.swing.JFrame implements ChangeListener {
     private void createConfigFile(String name) {
         try {
             PrintWriter writer = new PrintWriter("dims/" + name + ".lou", "UTF-8");
-            writer.println("25");
-            writer.println("35");
+            writer.println("30");
+            writer.println("50");
             writer.println("25");
             writer.println("50");
             writer.println("32");
@@ -1124,6 +1142,7 @@ public class MainWindow extends javax.swing.JFrame implements ChangeListener {
             writer.println("60");
             writer.println("90");
             writer.println("60");
+            writer.println("200");
             writer.close();
         } catch (IOException e) {
             // do something
@@ -1160,6 +1179,8 @@ public class MainWindow extends javax.swing.JFrame implements ChangeListener {
         txtvelsheets.setText(vel_sheet + "");
         txtvelcar.setText(vel_car + "");
         txtsleep.setText(sleep_time + "");
+        txtDistanciaInicio.setText(dist_carro + "");
+        
     }
     
     private void loadDistancesBraille() {
@@ -1171,7 +1192,7 @@ public class MainWindow extends javax.swing.JFrame implements ChangeListener {
             System.out.println("dims/" + (String) selectedFile + ".lou");
             FileReader inputFile = new FileReader("dims/" + (String) selectedFile + ".lou");
             BufferedReader bufferReader = new BufferedReader(inputFile);
-            int[] lines = new int[9];
+            int[] lines = new int[10];
             String line;
             int index = 0;
             while ((line = bufferReader.readLine()) != null) {
@@ -1190,6 +1211,7 @@ public class MainWindow extends javax.swing.JFrame implements ChangeListener {
             vel_sheet = lines[6];
             vel_car = lines[7];
             sleep_time = lines[8];
+            dist_carro = lines[9];
             setDistancesBraille();
         } catch (Exception e) {
             System.out.println("Error while reading file line by line:" + e.getMessage());
@@ -1266,6 +1288,7 @@ public class MainWindow extends javax.swing.JFrame implements ChangeListener {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1295,6 +1318,7 @@ public class MainWindow extends javax.swing.JFrame implements ChangeListener {
     private javax.swing.JTextField txtC;
     private javax.swing.JTextField txtCols;
     private javax.swing.JTextField txtD;
+    private javax.swing.JTextField txtDistanciaInicio;
     private javax.swing.JTextField txtFilas;
     private javax.swing.JTextField txtImgHeight;
     private javax.swing.JTextField txtImgWidth;

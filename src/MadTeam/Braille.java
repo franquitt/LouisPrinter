@@ -168,10 +168,10 @@ public class Braille {
         int renglones = 0;
         for (String line : lines) {
             System.out.println(line);
-            binlines[0] = "";
-            binlines[1] = "";
-            binlines[2] = "";
-            if (line.equals("")) {
+            binlines[0] = "9";
+            binlines[1] = "9";
+            binlines[2] = "9";
+            if (line.equals("")) {//si la linea esta vacia solo muevo el carro
                 out += main.BETWEEN_BRAILLE_LINES_DOTS + "\n";
                 out += main.BETWEEN_BRAILLE_LINES_DOTS + "\n";
                 out += main.BETWEEN_BRAILLE_LINES + "\n";
